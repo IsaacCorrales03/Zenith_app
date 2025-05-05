@@ -1,0 +1,230 @@
+<!-- <ion-tabs #tabs>
+    <ion-tab tab="home" >
+      
+    </ion-tab>
+    <ion-tab tab="learning">
+      <div id="learning-page">
+        <ion-header>
+          <ion-toolbar>
+            <ion-title>Learning</ion-title>
+          </ion-toolbar>
+        </ion-header>
+        <ion-content [fullscreen]="true">
+          <div>
+            <ion-row *ngFor="let curso of cursos">
+              <ion-col size="12">
+                <ion-card>
+                  <ion-card-header>
+                    <ion-card-title>{{ curso.nombre }}</ion-card-title>
+                    <ion-img [src]="getImagePath(curso)" class="banner-image"></ion-img>
+                  </ion-card-header>
+                  <ion-card-content>
+                    <ion-card-subtitle>Duración: {{ curso.duracion }}h</ion-card-subtitle>
+                    <br>
+                    <ng-container *ngIf="isUserEnrolled(curso.id); else notEnrolled">
+                      <div class="ion-text-center">
+                        <ion-button style="color: #ffffff;">Continuar <ion-icon name="play-outline"
+                            style="color: #ffffff;"></ion-icon></ion-button>
+                      </div>
+                    </ng-container>
+
+                    <ng-template #notEnrolled>
+                      <div class="ion-text-center">
+                        <ion-button style="color: #ffffff;" (click)="enrolledUser(curso.id)">Inscribirse <ion-icon
+                            name="add-circle-outline" style="color: #ffffff;"></ion-icon></ion-button>
+                      </div>
+                    </ng-template>
+                  </ion-card-content>
+                </ion-card>
+              </ion-col>
+            </ion-row>
+
+          </div>
+        </ion-content>
+      </div>
+    </ion-tab>
+    <ion-tab tab="ai">
+      <div id="ai-page">
+        <ion-header>
+          <ion-toolbar>
+            <ion-title>ai</ion-title>
+          </ion-toolbar>
+        </ion-header>
+        <div class="chart-container">
+          <canvas #learningChart id="learning-chart"></canvas>
+        </div>
+      </div>
+    </ion-tab>
+    <ion-tab tab="progress">
+      <div id="progress-page">
+        <ion-header>
+          <ion-toolbar>
+            <ion-title>progress</ion-title>
+          </ion-toolbar>
+        </ion-header>
+        <app-create-group-form></app-create-group-form>
+        <ion-content [fullscreen]="true">
+          <div *ngIf="userData && !loading">
+            <ion-text class="ion-text-center">
+              <h1>Cursos</h1>
+            </ion-text>
+            <ion-grid>
+              <!-- Mensaje cuando no hay cursos -->
+              <!-- <ion-row *ngIf="userData.cursos && userData.cursos.length === 0">
+                <ion-col>
+                  <p class="ion-text-center">No hay cursos disponibles</p>
+                </ion-col>
+              </ion-row>
+
+              <!-- Cursos en formato de tarjetas -->
+              <!-- <div>
+                <ion-row *ngFor="let curso of userData.cursos">
+                  <ion-col size="12">
+                    <ion-card>
+                      <ion-card-header>
+                        <ion-card-title>{{ curso.nombre }}</ion-card-title>
+                        <ion-img [src]="getImagePath(curso)" class="banner-image"></ion-img>
+                      </ion-card-header>
+                      <ion-card-content>
+                        <!-- Menú colocado al principio del contenido, justo después de la imagen -->
+                        <!-- <div class="menu-container"
+                          style="display: flex; justify-content: flex-end; margin-bottom: 10px;">
+                          <app-overflow-menu [curso_id]="curso.id" (unsubscribe)="unsubscribeUser($event)"
+                            verticalPosition="top" horizontalPosition="end"></app-overflow-menu>
+                        </div>
+
+                        <ion-card-subtitle>Duración: {{ curso.duracion }}h</ion-card-subtitle>
+                        <ion-progress-bar [value]="curso.progreso / 100"></ion-progress-bar>
+                        <p>{{ curso.progreso }}%</p>
+                      </ion-card-content>
+                    </ion-card>
+                  </ion-col>
+                </ion-row>
+              </div>
+            </ion-grid>
+          </div>
+        </ion-content>
+      </div>
+    </ion-tab>
+    <ion-tab tab="account">
+      <div id="account-page">
+        <ion-header>
+          <ion-toolbar>
+            <ion-title>Mi Cuenta</ion-title>
+          </ion-toolbar>
+        </ion-header>
+        <!-- Aquí mostramos los datos del usuario -->
+        <!-- <div *ngIf="loading" class="ion-padding">
+          <ion-spinner></ion-spinner>
+          <p>Cargando datos...</p>
+        </div>
+
+        <div *ngIf="error" class="ion-padding">
+          <ion-text color="danger">{{ error }}</ion-text>
+          <ion-button (click)="obtenerDatosDelUsuario()">Reintentar</ion-button>
+        </div>
+        <ion-list *ngIf="datos_del_usuario && !loading" ion-list [inset]="true">
+          <ion-list-header>
+            <ion-label>Usuario</ion-label>
+          </ion-list-header>
+          <ion-item>
+            <ion-label>Nombre: {{ datos_del_usuario.Username || 'Nombre no disponible' }}</ion-label>
+          </ion-item>
+          <ion-item>
+            <ion-label>Aprendizaje Principal: {{ datos_del_usuario.Primary_Learning || 'Desconocido' }}</ion-label>
+          </ion-item>
+          <ion-item>
+            <ion-label>Correo: {{ datos_del_usuario.Email || 'Correo no disponible' }}</ion-label>
+          </ion-item>
+          <ion-item>
+            <ion-label>Racha: {{ datos_del_usuario.Streak || 0 }}</ion-label>
+          </ion-item>
+          <ion-item>
+            <ion-label>API Key: </ion-label>
+            <app-copy-button [textToCopy]="datos_del_usuario.Api_Key">
+              {{datos_del_usuario.llave_parcial}}
+            </app-copy-button>
+          </ion-item>
+          <ion-button color="danger" style="--color: #fff;" (click)="cerrarSesion()">Cerrar sesión</ion-button>
+        </ion-list>
+      </div>
+    </ion-tab>
+    <ion-tab tab="social">
+      <div id="social-page">
+        <ion-header>
+          <ion-toolbar>
+            <ion-title>Home Page</ion-title>
+          </ion-toolbar>
+        </ion-header>
+        <ion-content [fullscreen]="true">
+          <ion-item>
+            <ion-input label="Código del grupo" labelPlacement="floating" name="grup_code" placeholder="XXXX"
+              [(ngModel)]="group_code"></ion-input>
+          </ion-item>
+          <ion-button (click)="searchGroup(group_code)">Buscar</ion-button>
+          <ion-button (click)="searchGroup(group_code)">Crear grupo</ion-button>
+          <ion-spinner *ngIf="!datos_del_usuario"></ion-spinner>
+          <div *ngIf="datos_del_usuario?.Administered_Groups">
+            <div *ngFor="let grupo of datos_del_usuario.Administered_Groups">
+              <ion-card>
+                <ion-img *ngIf="grupo.banner" [src]="grupo.banner" alt="Group banner"></ion-img>
+
+                <ion-card-header>
+                  <ion-card-title>{{ grupo.Group_Name}}</ion-card-title>
+                  <ion-card-subtitle>{{ grupo.Group_Admin }}</ion-card-subtitle>
+                  <ion-card-subtitle>{{ grupo.Group_Type }}</ion-card-subtitle>
+                </ion-card-header>
+
+                <ion-card-content>
+                  <ion-grid>
+                    <ion-row>
+                      <ion-col size="12">
+                        <p>{{ grupo.description }}</p>
+                      </ion-col>
+                    </ion-row>
+
+                    <ion-row>
+                      <ion-col size="12" size-md="6">
+                        <ion-item lines="none">
+                          <ion-icon name="people-outline" slot="start"></ion-icon>
+                          <ion-label>
+                            <h3>Miembros</h3>
+                            <p>{{ grupo.Group_Members}}</p>
+                          </ion-label>
+                        </ion-item>
+                      </ion-col>
+
+                      <ion-col size="12" size-md="6">
+                        <ion-item lines="none">
+                          <ion-icon name="person-outline" slot="start"></ion-icon>
+                          <ion-label>
+                            <h3>Administrator</h3>
+                            <p>{{ grupo.Group_Admin_Name}}</p>
+                          </ion-label>
+                        </ion-item>
+                      </ion-col>
+                    </ion-row>
+
+                  </ion-grid>
+
+                  <div class="action-buttons">
+                    <app-copy-button [textToCopy]="'zenith-api-38ka.onrender.com/join/' + grupo.Group_Code">
+                      Copiar enlace
+                    </app-copy-button>
+
+                    <ion-button fill="clear">
+                      <ion-icon name="exit-outline" slot="start"></ion-icon>
+                      Leave Group
+                    </ion-button>
+                  </div>
+                </ion-card-content>
+              </ion-card>
+            </div>
+          </div>
+          <div></div>
+        </ion-content>
+      </div>
+    </ion-tab>
+
+
+</ion-tabs> --> 

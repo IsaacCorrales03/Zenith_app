@@ -1,0 +1,46 @@
+<!-- create-group-form.html -->
+<div class="container">
+    <h2>Crear Grupo</h2>
+
+    <form *ngIf="formulario" [formGroup]="formulario" (ngSubmit)="onSubmit()">
+        <div class="form-group">
+            <label for="nombre">Nombre</label>
+            <input type="text" formControlName="nombre" class="form-control"
+                [ngClass]="{ 'is-invalid': submitted && f['nombre'].errors }" />
+            <div *ngIf="submitted && f['nombre'].errors" class="invalid-feedback">
+                <div *ngIf="f['nombre'].errors['required']">El nombre es obligatorio</div>
+                <div *ngIf="f['nombre'].errors['minlength']">El nombre debe tener al menos 3 caracteres</div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="public">Estado de publicación</label>
+            <div class="checkbox-container">
+                <input type="checkbox" formControlName="public" id="public"
+                    [ngClass]="{ 'is-invalid': submitted && f['public'].errors }" />
+                <label for="public" class="checkbox-label">Publico</label>
+            </div>
+            <div *ngIf="submitted && f['public'].errors" class="invalid-feedback">
+                <div *ngIf="f['public'].errors['required']">Debes especificar el estado de publicación</div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="imagen">Imagen (opcional)</label>
+            <input type="file" id="imagen" class="form-control" accept="image/*"
+                (change)="onImagenSeleccionada($event)" />
+
+            <!-- Vista previa de la imagen -->
+            <div *ngIf="imagenPreview" class="imagen-preview-container">
+                <h4>Vista previa:</h4>
+                <img [src]="imagenPreview" alt="Vista previa" class="imagen-preview">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary">Guardar</button>
+            <button type="reset" class="btn btn-secondary ml-2"
+                (click)="formulario.reset(); submitted = false; imagenPreview = null;">Limpiar</button>
+        </div>
+    </form>
+</div>

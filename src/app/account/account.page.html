@@ -1,0 +1,38 @@
+<app-header></app-header>
+<ion-content [fullscreen]="true" class="with-tab-bar" >
+  <div class="profile-container">
+    <ion-text *ngIf="UserData" id="title">¡Hola, {{ UserData.Username }}!</ion-text>
+    <div class="image-wrapper">
+      <img *ngIf="UserData" src="{{ UserData.Url_foto_perfil }}" alt="Avatar" class="profile-img" />
+      <ion-button class="edit-btn"><ion-icon name="add-circle-outline"></ion-icon></ion-button>
+    </div>
+  </div>
+  <div class="layout">
+    <ion-item class="settings-item" (click)="redirect('user-information')">
+      <ion-icon name="person-circle-outline" class="primary-icon"></ion-icon>
+      <ion-text>Información de la cuenta</ion-text>
+      <ion-icon name="caret-forward-outline" class="secondary-icon"></ion-icon>
+    </ion-item>
+    <ion-item class="settings-item">
+      <ion-icon name="moon-outline" class="primary-icon"></ion-icon>
+      <ion-text>Tema</ion-text>
+      <ion-icon name="caret-forward-outline" class="secondary-icon"></ion-icon>
+    </ion-item>
+    <ion-item class="settings-item">
+      <ion-icon name="lock-closed-outline" class="primary-icon"></ion-icon>
+      <ion-text>Privacidad</ion-text>
+      <ion-icon name="caret-forward-outline" class="secondary-icon"></ion-icon>
+    </ion-item>
+    <ion-item class="settings-item">
+      <ion-icon name="people-outline" class="primary-icon"></ion-icon>
+      <ion-text>Amistades</ion-text>
+      <ion-icon name="caret-forward-outline" class="secondary-icon"></ion-icon>
+    </ion-item>
+    <ion-item class="settings-item">
+      <ion-icon name="volume-high-outline" class="primary-icon"></ion-icon>
+      <ion-text>Playlist</ion-text>
+      <ion-icon name="caret-forward-outline" class="secondary-icon"></ion-icon>
+    </ion-item>
+  </div>
+</ion-content>
+<app-tab-bar></app-tab-bar>

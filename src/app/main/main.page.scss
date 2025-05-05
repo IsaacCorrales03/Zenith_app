@@ -1,0 +1,42 @@
+#home-page {
+    .section {
+        margin-top: 10%;
+        display: flex;
+        align-items: center;
+        gap: 20px;
+
+        p {
+            text-align: left;
+            margin-left: 5%;
+            margin-right: 5%;
+            font-style: italic;
+            max-width: 300px;
+        }
+
+        #rigth-text {
+            margin-left: -2%;
+        }
+
+        img {
+            margin-right: 2%;
+            margin-left: 2%;
+            width: 200px;
+            border-radius: 12px;
+        }
+
+        .border-image {
+            border: 2px solid #000;
+        }
+    }
+
+    .cursos-button {
+        --background: #C400DB;
+        --border-radius: 50px;
+        --border-width: 1px;
+        --color: #fff;
+        display: block;
+        width: 40%;
+        margin: 0 auto;
+        margin-top: 5%;
+    }
+}

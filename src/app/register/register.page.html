@@ -1,0 +1,30 @@
+<app-header></app-header>
+<ion-content [fullscreen]="true">
+  <div class="form-container">
+    <h1>Regístrate</h1>
+    <ion-text class="login-text">¿Ya tienes una cuenta? <ion-button id="login-button" (click)="goToLogin()">Inicia sesión</ion-button></ion-text>
+    <!-- Campos para el Email -->
+    <ion-label id="email-label" class="form-labels">Email</ion-label>
+    <ion-input class="form-inputs" type="email" id="email"></ion-input>
+    <ion-text id="email-error" class="error"></ion-text>
+
+    <!-- Campos para la contraseña -->
+    <ion-label id="password-label" class="form-labels">Contraseña</ion-label>
+    <ion-input class="form-inputs" type="password" id="password"></ion-input>
+    <ion-text id="password-error" class="error"></ion-text>
+
+
+    <!-- Campos para el username -->
+    <ion-label id="username" class="form-labels">Nombre de Usuario</ion-label>
+    <ion-input class="form-inputs" type="text" id="username"></ion-input>
+    <ion-text id="username-error" class="error"></ion-text>
+
+
+    <ion-text id="register-error" class="error"></ion-text>
+    <ion-button (click)="onRegister()" id="register-button">Registrarme</ion-button>
+    <ion-text id="connect-text" class="ion-text-center">O</ion-text>
+    <ion-button id="google-button"><img id="google-icon" src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/google/google-original.svg" />Continuar con google</ion-button>
+    <!--  -->
+  </div>
+
+</ion-content>

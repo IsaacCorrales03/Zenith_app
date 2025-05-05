@@ -1,0 +1,28 @@
+<app-header></app-header>
+<ion-content [fullscreen]="true" >
+
+    <div class="title-content">
+      <app-back-button></app-back-button>
+      <ion-icon name="person-circle-outline" class="primary-icon"></ion-icon>
+      <ion-text>Información de la cuenta</ion-text>
+    </div>
+    <div class="user-info" *ngIf="userData">
+      <h1>Nombre</h1>
+      <h3>{{ userData.Username }}</h3>
+      <h1>Correo</h1>
+      <h3>{{ userData.Email }}</h3>
+      <h1>Lecciones Restantes</h1>
+      <h3>{{ userData.Lessons }}</h3>
+      <h1>Racha</h1>
+      <h3>{{ userData.Streak }}</h3>
+      <h1>Aprendizaje Principal</h1>
+      <h3>{{ userData.Primary_Learning }}</h3>
+      <h1>ID de usuario</h1>
+      <h3>{{ userData.User_ID }}</h3>
+    </div>
+    <div class="buttons-container">
+      <ion-button class="cerrar-sesion" (click)="logout()">Cerrar Sesión</ion-button>
+      <ion-button class="eliminar-cuenta">Eliminar cuenta</ion-button>
+    </div>
+    <app-tab-bar></app-tab-bar>
+</ion-content>
