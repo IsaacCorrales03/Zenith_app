@@ -14,7 +14,7 @@ import { Router } from '@angular/router';
   templateUrl: './account.page.html',
   styleUrls: ['./account.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, Header, TabBar, IonButton, IonIcon, IonText,IonItem,]
+  imports: [IonContent, CommonModule, FormsModule, Header, TabBar, IonButton, IonIcon, IonText,IonItem,]
 })
 
 export class AccountPage implements OnInit {

@@ -1,37 +1,48 @@
 # Summary
 
-Date : 2025-04-04 20:37:34
+Date : 2025-05-04 23:17:36
 
 Directory c:\\Users\\Home\\Desktop\\Progra\\zenith.ai\\app\\Zenith
 
-Total : 69 files,  20738 codes, 217 comments, 288 blanks, all 21243 lines
+Total : 306 files,  204434 codes, 10046 comments, 1853 blanks, all 216333 lines
 
 Summary / [Details](details.md) / [Diff Summary](diff.md) / [Diff Details](diff-details.md)
 
 ## Languages
 | language | files | code | comment | blank | total |
 | :--- | ---: | ---: | ---: | ---: | ---: |
-| JSON | 8 | 18,802 | 2 | 8 | 18,812 |
-| TypeScript | 23 | 930 | 112 | 147 | 1,189 |
-| HTML | 5 | 325 | 5 | 29 | 359 |
-| XML | 11 | 297 | 3 | 17 | 317 |
-| SCSS | 8 | 125 | 23 | 15 | 163 |
-| Gradle | 6 | 116 | 7 | 26 | 149 |
+| JavaScript | 201 | 128,458 | 9,788 | 722 | 138,968 |
+| Database | 1 | 53,474 | 0 | 704 | 54,178 |
+| JSON | 13 | 19,078 | 2 | 9 | 19,089 |
+| TypeScript | 32 | 1,278 | 134 | 218 | 1,630 |
+| XML | 17 | 952 | 3 | 18 | 973 |
+| SCSS | 15 | 717 | 42 | 72 | 831 |
+| HTML | 13 | 251 | 11 | 38 | 300 |
+| Gradle | 6 | 119 | 7 | 27 | 153 |
 | Batch | 1 | 41 | 32 | 22 | 95 |
-| JavaScript | 1 | 37 | 6 | 2 | 45 |
 | JSON with Comments | 1 | 29 | 1 | 1 | 31 |
 | Java | 3 | 27 | 11 | 14 | 52 |
 | Java Properties | 2 | 9 | 15 | 7 | 31 |
+| CSS | 1 | 1 | 0 | 1 | 2 |
 
 ## Directories
 | path | files | code | comment | blank | total |
 | :--- | ---: | ---: | ---: | ---: | ---: |
-| . | 69 | 20,738 | 217 | 288 | 21,243 |
-| . (Files) | 11 | 18,882 | 9 | 14 | 18,905 |
-| android | 22 | 489 | 68 | 85 | 642 |
-| android (Files) | 6 | 95 | 51 | 42 | 188 |
-| android\\app | 15 | 387 | 17 | 42 | 446 |
-| android\\app (Files) | 2 | 64 | 3 | 12 | 79 |
+| . | 306 | 204,434 | 10,046 | 1,853 | 216,333 |
+| . (Files) | 11 | 18,894 | 9 | 13 | 18,916 |
+| .angular | 67 | 181,975 | 9,778 | 1,284 | 193,037 |
+| .angular\\cache | 67 | 181,975 | 9,778 | 1,284 | 193,037 |
+| .angular\\cache\\19.2.3 | 67 | 181,975 | 9,778 | 1,284 | 193,037 |
+| .angular\\cache\\19.2.3\\app | 67 | 181,975 | 9,778 | 1,284 | 193,037 |
+| .angular\\cache\\19.2.3\\app (Files) | 1 | 53,474 | 0 | 704 | 54,178 |
+| .angular\\cache\\19.2.3\\app\\vite | 66 | 128,501 | 9,778 | 580 | 138,859 |
+| .angular\\cache\\19.2.3\\app\\vite\\deps | 64 | 128,490 | 9,778 | 579 | 138,847 |
+| .angular\\cache\\19.2.3\\app\\vite\\deps_ssr | 2 | 11 | 0 | 1 | 12 |
+| android | 27 | 1,146 | 68 | 86 | 1,300 |
+| android (Files) | 6 | 97 | 51 | 43 | 191 |
+| android\\.idea | 5 | 654 | 0 | 0 | 654 |
+| android\\app | 15 | 388 | 17 | 42 | 447 |
+| android\\app (Files) | 2 | 65 | 3 | 12 | 80 |
 | android\\app\\src | 13 | 323 | 14 | 30 | 367 |
 | android\\app\\src\\androidTest | 1 | 15 | 6 | 6 | 27 |
 | android\\app\\src\\androidTest\\java | 1 | 15 | 6 | 6 | 27 |
@@ -58,20 +69,30 @@ Summary / [Details](details.md) / [Diff Summary](diff.md) / [Diff Details](diff-
 | android\\app\\src\\test\\java\\com\\getcapacitor\\myapp | 1 | 9 | 5 | 5 | 19 |
 | android\\gradle | 1 | 7 | 0 | 1 | 8 |
 | android\\gradle\\wrapper | 1 | 7 | 0 | 1 | 8 |
-| src | 36 | 1,367 | 140 | 189 | 1,696 |
-| src (Files) | 6 | 56 | 76 | 27 | 159 |
-| src\\app | 26 | 1,304 | 51 | 156 | 1,511 |
-| src\\app (Files) | 5 | 73 | 1 | 12 | 86 |
-| src\\app\\components | 5 | 242 | 6 | 22 | 270 |
+| src | 59 | 2,215 | 186 | 318 | 2,719 |
+| src (Files) | 6 | 58 | 77 | 26 | 161 |
+| src\\app | 49 | 2,150 | 96 | 286 | 2,532 |
+| src\\app (Files) | 5 | 106 | 1 | 13 | 120 |
+| src\\app\\account | 4 | 160 | 0 | 19 | 179 |
+| src\\app\\components | 17 | 561 | 21 | 70 | 652 |
+| src\\app\\components\\back-button | 3 | 46 | 2 | 8 | 56 |
 | src\\app\\components\\bottom-sheet | 2 | 138 | 2 | 10 | 150 |
 | src\\app\\components\\copy-button | 1 | 52 | 4 | 7 | 63 |
+| src\\app\\components\\create-group-form | 3 | 179 | 13 | 32 | 224 |
+| src\\app\\components\\header | 3 | 42 | 0 | 3 | 45 |
 | src\\app\\components\\overflow-menu | 2 | 52 | 0 | 5 | 57 |
-| src\\app\\login | 4 | 69 | 4 | 12 | 85 |
-| src\\app\\main | 4 | 671 | 17 | 66 | 754 |
-| src\\app\\register | 4 | 95 | 5 | 15 | 115 |
-| src\\app\\services | 4 | 154 | 18 | 29 | 201 |
+| src\\app\\components\\tab-bar | 3 | 52 | 0 | 5 | 57 |
+| src\\app\\cursos | 3 | 28 | 0 | 8 | 36 |
+| src\\app\\login | 4 | 291 | 17 | 34 | 342 |
+| src\\app\\main | 4 | 417 | 17 | 56 | 490 |
+| src\\app\\register | 3 | 223 | 9 | 29 | 261 |
+| src\\app\\services | 6 | 211 | 17 | 38 | 266 |
+| src\\app\\user-information | 3 | 153 | 14 | 19 | 186 |
 | src\\assets | 1 | 1 | 0 | 1 | 2 |
 | src\\environments | 2 | 6 | 11 | 4 | 21 |
 | src\\theme | 1 | 0 | 2 | 1 | 3 |
+| www | 142 | 204 | 5 | 152 | 361 |
+| www (Files) | 141 | 203 | 5 | 151 | 359 |
+| www\\assets | 1 | 1 | 0 | 1 | 2 |
 
 Summary / [Details](details.md) / [Diff Summary](diff.md) / [Diff Details](diff-details.md)

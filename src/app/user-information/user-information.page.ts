@@ -14,7 +14,7 @@ import { BackButton } from '../components/back-button/back-button.component';
   templateUrl: './user-information.page.html',
   styleUrls: ['./user-information.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, Header, TabBar, IonButton, IonIcon, IonText, BackButton]
+  imports: [IonContent, CommonModule, FormsModule, Header, TabBar, IonButton, IonIcon, IonText, BackButton]
 })
 export class UserInformationPage implements OnInit {
   userData: any;

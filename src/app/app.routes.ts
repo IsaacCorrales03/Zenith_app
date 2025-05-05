@@ -5,7 +5,8 @@ import { NoAuthGuard } from './services/no-auth-guard.service';
 export const routes: Routes = [
   {
     path: 'login',
-    loadComponent: () => import('./login/login.page').then( m => m.LoginPage)
+    loadComponent: () => import('./login/login.page').then( m => m.LoginPage),
+    canActivate: [NoAuthGuard]
   },
   {
     path: 'register',
@@ -28,16 +29,18 @@ export const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
+    path: 'user-information',
+    loadComponent: () => import('./user-information/user-information.page').then( m => m.UserInformationPage),
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'cursos',
+    loadComponent: () => import('./cursos/cursos.page').then( m => m.CursosPage),
+    canActivate: [AuthGuard]
+  },
+  {
     path: "**",
     loadComponent: () => import('./register/register.page').then( m => m.RegisterPage),
     canActivate: [NoAuthGuard]
   },
-  {
-    path: 'user-information',
-    loadComponent: () => import('./user-information/user-information.page').then( m => m.UserInformationPage)
-  },
-  {
-    path: 'cursos',
-    loadComponent: () => import('./cursos/cursos.page').then( m => m.CursosPage)
-  }
 ];

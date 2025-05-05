@@ -24,7 +24,7 @@ interface AuthResponse {
   templateUrl: './login.page.html',
   styleUrls: ['./login.page.scss'],
   standalone: true,
-  imports: [Header, IonText, TabBar, IonLabel, IonContent, CommonModule, FormsModule, IonHeader, IonInputPasswordToggle, IonInput, IonItem, IonTitle, IonToolbar, IonButton]
+  imports: [Header, IonText, IonLabel, IonContent, CommonModule, FormsModule, IonInput, IonButton]
 })
 
 export class LoginPage implements OnInit {

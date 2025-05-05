@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormGroup, FormsModule } from '@angular/forms';
-import { IonInput, IonImg, IonProgressBar, IonCard, ModalController, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonRow, IonCol, IonGrid, IonListHeader, IonLabel, IonContent, IonHeader, IonIcon, IonTab, IonTabBar, IonTabButton, IonTabs, IonTitle, IonToolbar, IonText, IonSpinner, IonButton, IonList, IonItem } from '@ionic/angular/standalone';
+import { IonImg, IonProgressBar, IonCard, ModalController, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonRow, IonCol, IonGrid, IonListHeader, IonLabel, IonContent, IonHeader, IonIcon, IonTab, IonTabBar, IonTabButton, IonTabs, IonTitle, IonToolbar, IonText, IonSpinner, IonButton, IonList, IonItem } from '@ionic/angular/standalone';
 
 import { ApiService } from 'src/app/services/api.service';
 import { Chart } from 'chart.js/auto';
@@ -47,37 +47,9 @@ interface GrupoResponse {
   standalone: true,
   imports: [
     IonContent,
-    IonTabs,
-    IonHeader,
-    IonTitle,
-    IonToolbar,
     CommonModule,
-    IonTab,
-    IonTabBar,
-    IonTabButton,
-    IonIcon,
     FormsModule,
-    IonText,
-    IonSpinner,
     IonButton,
-    IonList,
-    IonItem,
-    IonLabel,
-    IonListHeader,
-    CopyButtonComponent,
-    IonGrid,
-    IonCol,
-    IonRow,
-    IonInput,
-    IonCard,
-    IonCardContent,
-    IonCardHeader,
-    IonCardSubtitle,
-    IonCardTitle,
-    IonProgressBar,
-    IonImg,
-    CrearGrupoForm,
-    OverflowMenu,
     Header,
     TabBar
   ],

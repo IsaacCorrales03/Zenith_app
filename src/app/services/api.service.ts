@@ -33,9 +33,9 @@ export class ApiService {
     return response
   }
 
-  crear_grupo(form: object): Observable<any> {
+  crear_curso(form: object): Observable<any> {
     console.log(form)
-    return this.http.head(this.apiUrl)
+    return this.http.post(`${this.apiUrl}/cursos`, form)
   }
 
   obtenerDatosDeUsuario(): Observable<any> {
