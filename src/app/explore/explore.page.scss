@@ -1,0 +1,53 @@
+// Header styles
+h1 {
+    color: #e639d0;
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+// Search container
+.search-container {
+    background: #f4f4f4;
+    position: relative;
+    display: flex;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+// Search input
+.search-input {
+    
+    --border-radius: 8px;
+    --padding-start: 40px;
+    --padding-end: 40px;
+    height: 40px;
+    max-width: 80% !important;
+    flex: 1;
+    margin-left: 10%;
+    position: relative;
+}
+
+// Search icon
+.search-icon {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 1;
+    font-size: 20px;
+    color: #747474;
+    margin-right: 10% !important;
+}
+
+// Clear icon
+.close-icon {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 1;
+    font-size: 20px;
+    color: #747474;
+}

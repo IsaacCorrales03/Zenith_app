@@ -2,9 +2,9 @@
 <ion-content [fullscreen]="true">
   <div class="container">
     <div class="header-container">
-      <ion-text class="title">Cursos</ion-text>
-      <ion-button (click)="openModal()">
-        <ion-icon name="add-circle"></ion-icon>
+      <ion-text class="title"><h1>Cursos</h1></ion-text>
+      <ion-button (click)="get_cursos()">
+        <ion-icon name="refresh-outline"></ion-icon>
       </ion-button>
     </div>
     
@@ -33,69 +33,6 @@
     </div>
   </div>
   
-  <!-- Modal para crear curso -->
-  <ion-modal #modal [isOpen]="isModalOpen" (didDismiss)="isModalOpen = false">
-    <ng-template>
-      <ion-header>
-        
-        <ion-toolbar>
-          <ion-title>Crear Nuevo Curso</ion-title>
-          <ion-buttons >
-            <ion-button (click)="closeModal()" style="margin-left: 80%; margin-top: 30%;">
-              <ion-icon name="close-circle"></ion-icon>
-            </ion-button>
-          </ion-buttons>
-        </ion-toolbar>
-      </ion-header>
-      
-      <ion-content class="ion-padding">
-        <form #cursoForm="ngForm">
-          <ion-item>
-            <ion-label position="floating">Nombre del curso</ion-label>
-            <ion-input 
-              type="text" 
-              name="nombre" 
-              [(ngModel)]="nuevoCurso.nombre" 
-              required>
-            </ion-input>
-          </ion-item>
-          
-          <ion-item>
-            <ion-label position="floating">Duración (horas)</ion-label>
-            <ion-input 
-              type="number" 
-              name="duracion" 
-              [(ngModel)]="nuevoCurso.duracion" 
-              required>
-            </ion-input>
-          </ion-item>
-          
-          <ion-item>
-            <input 
-              type="file" 
-              (change)="onFileSelected($event)"
-              accept="image/*">
-          </ion-item>
-          
-          <div class="preview-container" *ngIf="imagePreview">
-            <p>Vista previa:</p>
-            <img [src]="imagePreview" alt="Vista previa de la imagen" class="image-preview">
-          </div>
-        </form>
-      </ion-content>
-      
-      <ion-footer>
-        <ion-toolbar>
-          <ion-buttons slot="end">
-            <ion-button 
-              [disabled]="!cursoForm.valid || !selectedFile"
-              (click)="crear_curso()">
-              Crear
-            </ion-button>
-          </ion-buttons>
-        </ion-toolbar>
-      </ion-footer>
-    </ng-template>
-  </ion-modal>
+
 </ion-content>
 <app-tab-bar></app-tab-bar>

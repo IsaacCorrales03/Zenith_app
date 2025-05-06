@@ -34,6 +34,9 @@ import {
   isPlatform
 } from "./chunk-NWEONTVA.js";
 import {
+  NgControl
+} from "./chunk-PA54HIIX.js";
+import {
   ActivatedRoute,
   ChildrenOutletContexts,
   NavigationStart,
@@ -42,9 +45,6 @@ import {
   RouterLink,
   UrlSerializer
 } from "./chunk-MVHGQY76.js";
-import {
-  NgControl
-} from "./chunk-PA54HIIX.js";
 import {
   DOCUMENT,
   Location,
@@ -4008,4 +4008,4 @@ export {
    * (C) Ionic http://ionicframework.com - MIT License
    *)
 */
-//# sourceMappingURL=chunk-P26KDW74.js.map
+//# sourceMappingURL=chunk-VC6GBMC3.js.map
