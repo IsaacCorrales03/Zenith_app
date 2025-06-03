@@ -1,26 +1,68 @@
 <app-header></app-header>
+
 <ion-content [fullscreen]="true">
   <div class="form-container">
     <br>
     <h1>Iniciar sesión</h1>
-    <ion-text class="login-text">¿Es tu primera vez? <ion-button class="login-button" (click)="goToRegister()">Registrate</ion-button></ion-text>
-    <!-- Campos para el Email -->
-    <ion-label id="email-label" class="form-labels">Email</ion-label>
-    <ion-input class="form-inputs" type="email" id="email"></ion-input>
-    <ion-text id="email-error" class="error"></ion-text>
 
-    <!-- Campos para la contraseña -->
-    <ion-label id="password-label" class="form-labels">Contraseña</ion-label>
-    <ion-input class="form-inputs" type="password" id="password"></ion-input>
-    <ion-text id="password-error" class="error"></ion-text>
-    
-    <ion-text><ion-button class="password-button" >¿Olvidaste tu contraseña?</ion-button></ion-text>
+    <ion-text class="login-text">
+      ¿Es tu primera vez?
+      <ion-button class="login-button" fill="clear" (click)="goToRegister()">
+        Regístrate
+      </ion-button>
+    </ion-text>
 
-    <ion-text id="register-error" class="error"></ion-text>
-    <ion-button (click)="onLogin()" id="register-button">Iniciar sesión</ion-button>
+    <!-- Email -->
+    <ion-label class="form-labels">Email</ion-label>
+    <ion-input
+      class="form-inputs"
+      type="email"
+      [(ngModel)]="email"
+      placeholder="ejemplo@correo.com"
+    ></ion-input>
+    <ion-text class="error" *ngIf="emailError">
+      {{ emailError }}
+    </ion-text>
+
+    <!-- Contraseña -->
+    <ion-label class="form-labels">Contraseña</ion-label>
+    <ion-input
+      class="form-inputs"
+      type="password"
+      [(ngModel)]="password"
+      placeholder="********"
+    ></ion-input>
+    <ion-text class="error" *ngIf="passwordError">
+      {{ passwordError }}
+    </ion-text>
+
+    <!-- Recuperar contraseña -->
+    <ion-text>
+      <ion-button fill="clear" class="password-button">
+        ¿Olvidaste tu contraseña?
+      </ion-button>
+    </ion-text>
+
+    <!-- Error general -->
+    <ion-text class="error" *ngIf="loginError">
+      {{ loginError }}
+    </ion-text>
+
+    <!-- Botón de login -->
+    <ion-button expand="block" (click)="onLogin()" id="register-button">
+      Iniciar sesión
+    </ion-button>
+
     <ion-text id="connect-text" class="ion-text-center">O</ion-text>
-    <ion-button id="google-button"><img id="google-icon" src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/google/google-original.svg" />Continuar con google</ion-button>
-    <!--  -->
-  </div>
 
+    <!-- Continuar con Google -->
+    <ion-button expand="block" id="google-button">
+      <img
+        id="google-icon"
+        src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/google/google-original.svg"
+        style="width: 20px; margin-right: 8px"
+      />
+      Continuar con Google
+    </ion-button>
+  </div>
 </ion-content>

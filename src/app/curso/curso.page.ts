@@ -71,7 +71,7 @@ interface Curso {
   templateUrl: './curso.page.html',
   styleUrls: ['./curso.page.scss'],
   standalone: true,
-  imports: [IonCardContent,IonCard,IonCardHeader,IonCardTitle,IonCardSubtitle,IonChip,IonBadge, IonIcon,IonLabel, TabBar, Header, IonContent, IonHeader, IonTitle, IonToolbar, IonBackButton, IonButtons, CommonModule, FormsModule]
+  imports: [IonCardContent,IonCard,IonCardHeader,IonCardTitle,IonCardSubtitle,IonChip, IonIcon,IonLabel, TabBar, Header, IonContent, CommonModule, FormsModule]
 })
 export class CursoPage implements OnInit {
   curso: Curso = this.cursoService.getCurso();
