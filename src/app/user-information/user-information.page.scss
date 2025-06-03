@@ -1,0 +1,105 @@
+ion-content {
+    scrollbar-width: 0px;
+
+    .title-content {
+        display: flex;
+        /* Establece el contenedor como un flexbox */
+        align-items: center;
+        /* Alinea verticalmente los elementos al centro */
+        justify-content: flex-start;
+        /* Alinea los elementos a la izquierda (por defecto) */
+        width: 100%;
+        /* Asegura que el contenedor ocupe todo el ancho disponible */
+        gap: 10px;
+        /* Agrega un pequeño espacio entre los elementos */
+        
+        
+
+        ion-icon {
+            margin: 0 5px;
+            /* Menor espacio entre íconos y el texto */
+            font-size: 7vw;
+            /* Ajusta el tamaño de los íconos */
+        }
+
+        ion-text {
+            flex: 1;
+            /* Hace que el texto ocupe todo el espacio disponible */
+            font-size: 5.4vw;
+            /* Ajusta el tamaño del texto */
+        }
+    }
+
+    h1 {
+        margin-left: 2.5%;
+        color: #FF96F5;
+        font-weight: bold;
+    }
+
+    h3 {
+        padding: 2.5%;
+        border-radius: 10px;
+        margin-left: 2.5%;
+        margin-right: 2.5%;
+        color: #DB00C5;
+
+    }
+
+    .buttons-container {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        padding-top: 5%;
+        .cerrar-sesion {
+            --background: transparent;
+            --color: #1E41A8;
+            --background-activated: transparent;
+            --background-activated-opacity: 0;
+            --background-focused: transparent;
+            --background-focused-opacity: 0;
+            --background-hover: transparent;
+            --background-hover-opacity: 0;
+            --border-color: transparent;
+            --border-radius: 0;
+            --border-style: solid;
+            --border-width: 0;
+            --box-shadow: none;
+            --transition: none;
+            --ripple-color: #00000000;
+
+            font-weight: bold;
+            width: auto;
+            padding: 2px;
+            text-align: left;
+        }
+
+        .eliminar-cuenta {
+            --background: transparent;
+            --color: #FF0000;
+            --background-activated: transparent;
+            --background-activated-opacity: 0;
+            /* Opacidad 0 para asegurarte que no se vea */
+            --background-focused: transparent;
+            --background-focused-opacity: 0;
+            --background-hover: transparent;
+            --background-hover-opacity: 0;
+            --border-color: transparent;
+            --border-radius: 0;
+            /* Opcional, si quieres sin esquinas redondeadas */
+            --border-style: solid;
+            /* Puedes dejarlo, aunque no se verá porque el color es transparente */
+            --border-width: 0;
+            /* Opcional, para que tampoco haya borde */
+            --box-shadow: none;
+            /* Sin sombra */
+            --transition: none;
+            --ripple-color: #00000000;
+
+            font-weight: bold;
+            width: auto;
+            padding: 2px;
+            text-align: left;
+        }
+    }
+}

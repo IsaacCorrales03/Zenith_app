@@ -1,0 +1,24 @@
+<hr style="margin-bottom: 15%;">
+<ion-tabs>
+  <ion-tab-bar slot="bottom"> <!-- ¡OJO! Aquí el secreto: el slot="bottom" -->
+    <ion-tab-button (click)="redirect('')">
+      <ion-icon name="home-outline" style="color: #2A59E5"></ion-icon>
+    </ion-tab-button>
+    <ion-tab-button (click)="redirect('explore')">
+      <ion-icon name="search-sharp" style="color: #00B40C"></ion-icon>
+    </ion-tab-button>
+    <ion-tab-button (click)="redirect('cursos')">
+      <ion-icon name="book-outline" style="color: #C400DB"></ion-icon>
+    </ion-tab-button>
+    <ion-tab-button (click)="redirect('favorites')">
+      <ion-icon name="star" style="color: #00B40C"></ion-icon>
+    </ion-tab-button>
+    <ion-tab-button (click)="redirect('social')">
+      <ion-icon name="people-outline" style="color: #2A59E5"></ion-icon>
+    </ion-tab-button>
+    <ion-tab-button (click)="redirect('account')">
+      <ion-icon name="person-circle" style="color: #C400DB"></ion-icon>
+    </ion-tab-button>
+  </ion-tab-bar>
+
+</ion-tabs>

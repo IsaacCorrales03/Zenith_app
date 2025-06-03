@@ -1,0 +1,19 @@
+<app-header></app-header>
+<ion-content [fullscreen]="true">
+<div id="home-page">
+      <div class="section">
+        <p>
+          Descubre nuevos cursos, en los cuales puedes repasar o aprender a tu manera
+        </p>
+        <img src="https://thinkib.net/media/ib/spanishb/images/Ll/screenshot-2021-08-19-at-22.16.06.png" alt="imagen de cursos"/>
+      </div>
+      <div class="section">
+        <img class="border-image" src="https://ghcapacitacion.poder-judicial.go.cr/images/Boletines/Neuromarketing.jpg" alt="imagen de cursos"/>
+        <p id="rigth-text">
+          Recuerda que en este proceso el aprendizaje y repaso son completamente a tu modo, a tu ritmo y a tu gusto
+        </p>
+      </div>
+      <ion-button class="cursos-button" (click)="go_to_cursos()">Ir a cursos</ion-button>
+  </div>
+  <app-tab-bar></app-tab-bar>
+</ion-content>

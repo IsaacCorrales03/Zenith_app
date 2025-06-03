@@ -1,0 +1,73 @@
+<app-header></app-header>
+<ion-content [fullscreen]="true">
+  <div class="container">
+    <div class="header-container">
+      <ion-text class="title">
+        <h1>Cursos</h1>
+      </ion-text>
+      <ion-button (click)="get_cursos()">
+        <ion-icon name="refresh-outline"></ion-icon>
+      </ion-button>
+    </div>
+
+    <!-- Lista de cursos -->
+    <div class="cursos-list" *ngIf="cursos && cursos.length > 0">
+      <ion-grid>
+        <ion-row>
+          <ion-col size="12" size-md="6" size-lg="4" *ngFor="let curso of cursos; let i = index">
+            <div class="curso-card" [ngClass]="getCursoClass(curso.nombre)" [style.animation-delay]="i * 0.1 + 's'">
+              <div class="curso-image-container">
+                <img [src]="curso.url_imagen || 'assets/placeholder-curso.jpg'" [alt]="curso.nombre" class="curso-image"
+                  loading="lazy">
+                <div class="curso-blur-overlay"></div>
+              </div>
+              <div class="curso-info-box">
+                <div class="curso-content">
+                  <h2>{{ curso.nombre }}</h2>
+                  <p class="curso-subtitle">
+                    <ion-icon name="time-outline"></ion-icon>
+                    Duración: {{ formatDuration(curso.duracion) }}
+                  </p>
+                  <p class="curso-subtitle">
+                    <ion-icon name="person-outline"></ion-icon>
+                    Autor: {{ curso.autor.nombre }}
+                  </p>
+                  <p class="curso-subtitle">
+                    <ion-icon name="people-outline"></ion-icon>
+                    Inscritos: {{ curso.inscripciones?.length || 0 }}
+                  </p>
+
+                  <!-- Inscribirse Button -->
+                  <ion-button *ngIf="curso.puedeInscribirse" expand="block" fill="solid" color="primary"
+                    class="inscribirse-btn" (click)="inscribirse(curso)">
+                    <ion-icon name="add-outline" slot="start"></ion-icon>
+                    Inscribirse
+                  </ion-button>
+                  <!-- Continuar Button -->
+                  <ion-button *ngIf="!curso.puedeInscribirse" expand="block" fill="solid" color="secondary"
+                    class="continuar-btn" (click)="ver_curso(curso)">
+                    <ion-icon name="play-outline" slot="start"></ion-icon>
+                    Continuar
+                  </ion-button>
+                </div>
+              </div>
+            </div>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </div>
+
+    <div class="no-cursos" *ngIf="!cursos || cursos.length === 0">
+      <ion-icon name="book-outline" size="large"></ion-icon>
+      <h3>No hay cursos disponibles</h3>
+      <p>Vuelve más tarde para ver nuevos cursos</p>
+    </div>
+
+    <div *ngIf="!cursos || cursos.length === 0" class="empty-state">
+      <p>No hay cursos disponibles</p>
+    </div>
+  </div>
+
+
+</ion-content>
+<app-tab-bar></app-tab-bar>

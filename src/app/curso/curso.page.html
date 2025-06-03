@@ -1,0 +1,81 @@
+<ion-content [fullscreen]="true">
+  <app-header></app-header>
+  <div class="container">
+    <!-- Detalles del Curso -->
+    <ion-card>
+      <img [src]="curso.url_imagen" alt="Imagen del curso" />
+      <ion-card-header>
+        <ion-card-title>{{ curso.nombre }}</ion-card-title>
+        <ion-card-subtitle>Por {{ curso.autor.nombre }}</ion-card-subtitle>
+      </ion-card-header>
+      <ion-card-content>
+        <div class="curso-stats">
+          <ion-chip color="primary">
+            <ion-icon name="time-outline"></ion-icon>
+            <ion-label>{{ curso.duracion }} min</ion-label>
+          </ion-chip>
+          <ion-chip color="secondary">
+            <ion-icon name="people-outline"></ion-icon>
+            <ion-label>{{ curso.inscripciones.length }} inscritos</ion-label>
+          </ion-chip>
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Estructura de Árbol -->
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Contenido del Curso</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <div class="tree-structure">
+          <div class="tree-node root-node">
+            <ion-icon name="school-outline" class="node-icon"></ion-icon>
+            <span class="node-title">{{ curso.nombre }}</span>
+          </div>
+
+          <!-- Capítulos -->
+          <div class="chapters-container">
+            <div *ngFor="let capitulo of getCapitulos(); let i = index" class="chapter-branch">
+              <div class="tree-connector"></div>
+              <div class="tree-node chapter-node" (click)="toggleChapter(capitulo.id)">
+                <ion-icon [name]="isChapterExpanded(capitulo.id) ? 'chevron-down-outline' : 'chevron-forward-outline'"
+                  class="expand-icon">
+                </ion-icon>
+                <ion-icon name="library-outline" class="node-icon"></ion-icon>
+                <span class="node-title">Cap. {{ capitulo.id }}: {{ capitulo.nombre }}</span>
+
+              </div>
+
+              <!-- Lecciones -->
+              <div *ngIf="isChapterExpanded(capitulo.id)" class="lessons-container">
+                <div *ngFor="let leccion of getLecciones(capitulo); let j = index; let last = last"
+                  class="lesson-branch">
+                  <div class="lesson-connector" [class.last-lesson]="last"></div>
+                  <div class="tree-node lesson-node" (click)="selectLesson(leccion)">
+                    <ion-icon name="play-circle-outline" class="node-icon"></ion-icon>
+                    <div class="lesson-content">
+                      <span class="node-title">{{ leccion.nombre }}</span>
+                      <div class="lesson-details">
+                        <ion-chip size="small" color="tertiary">
+                          <ion-icon name="time-outline"></ion-icon>
+                          <ion-label>{{ leccion.duracion }} min</ion-label>
+                        </ion-chip>
+                        <ion-chip size="small" color="warning">
+                          <ion-icon name="star-outline"></ion-icon>
+                          <ion-label>{{ leccion.creditos }} pts</ion-label>
+                        </ion-chip>
+                      </div>
+                      <p class="lesson-theme">{{ leccion.tema }}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ion-card-content>
+    </ion-card>
+  </div>
+  <app-tab-bar></app-tab-bar>
+</ion-content>

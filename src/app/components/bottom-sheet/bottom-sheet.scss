@@ -1,0 +1,88 @@
+ion-header {
+    ion-toolbar{
+        ion-text{
+            display: flex;
+            justify-content: center;
+            width: 100%;
+            text-align: center;
+            font-size: larger;
+            font-weight: bold;
+        }
+    }
+}
+
+ion-content {
+
+    ion-text{
+        margin-top: 10px;
+        margin-bottom: 10px;
+        display: flex;
+        justify-content: left;
+        width: 100%;
+        padding-left: 16px;
+        color: #cfcfcf;
+        font-weight: bold;
+        h4{
+            font-weight: bold;
+            font-size: x-large;
+            display: flex;
+            justify-content: center;
+            width: 100%;
+        }
+        ion-icon{
+            margin-right: 5px;
+        }
+    }
+    #public_label {
+        padding-left: 16px;
+        color: #4caf50;  
+        font-weight: bold;
+        border-radius: 4px;
+        ion-icon{
+            margin-left: 5px;
+        }
+    }
+    #description{
+        text-align: center;
+        padding: 0;
+        color: #888888;
+        font-size: 0.9rem;
+        line-height: 1.5;
+        max-height: 150px;
+        overflow-y: auto;
+    }
+      
+    #private_label {
+        padding-left: 16px;
+        color: #f44336;  // Color rojo para grupos privados
+        font-weight: bold;
+        border-radius: 4px;
+        ion-icon{
+            margin-left: 5px;
+        }
+        
+    }
+    ion-button {
+        display: flex;
+        justify-content: center;
+        width: 60%;
+        color: #cfcfcf;
+        font-weight: bold;
+        --background: #4caf50;  
+        --color: #fff;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .cancel-button {
+        margin-top: 10px;
+        display: flex;
+        justify-content: center;
+        width: 60%;
+        color: #ffffff;
+        font-weight: bold;
+        --background: #ff5656;  
+        --color: #fff;
+        margin-left: auto;
+        margin-right: auto;
+    }
+}

@@ -1,0 +1,17 @@
+ion-header {
+    #header-title{
+        font-weight: bold;
+        padding: 10px;
+    }
+    #header-span {
+        padding: 10px;
+    }
+
+    .toolbar-container {
+        border-bottom: 10px;
+    }
+    ion-toolbar {
+        --border-color: #e99ff1;
+    }
+    
+}

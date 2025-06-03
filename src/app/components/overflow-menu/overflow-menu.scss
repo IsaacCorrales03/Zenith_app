@@ -1,0 +1,14 @@
+ion-button[shape="round"] {
+    --background: #00000000;
+    --color: #ffffff;
+    --background-activated: #00000044;
+}
+ion-popover {
+    --background: #0000000;
+    ion-button {
+        --background: #0000002f;
+        --color: #f75661;
+        --background-hover: #9ce0be;
+        --background-activated: #00000044;
+    }
+}

@@ -1,0 +1,28 @@
+ion-button {
+    --background: #00000000;
+    --background-activated: #00000000;
+    --background-activated-opacity: #00000000;
+    --background-focused: #00000000;
+    --background-focused-opacity: #00000000;
+    --background-hover: #00000000;
+    --background-hover-opacity: #00000000;
+    --color: #2a59e5;
+    --ripple-color: transparent;
+    --box-shadow: none;
+    --border-width: 0px;
+    --border-style: none;
+    --border-color: transparent;
+    --padding-bottom: 0px;
+    --padding-top: 0px;
+    --padding-start: 0px;
+    --padding-end: 0px;
+    --border-radius: 50%;
+    font-size: 24px;
+
+    ion-icon {
+        color: #000;
+        /* Color del ícono dentro del botón */
+        font-size: 24px;
+        /* Ajusta el tamaño del ícono */
+    }
+}

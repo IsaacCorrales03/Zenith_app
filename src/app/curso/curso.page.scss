@@ -1,0 +1,178 @@
+.container {
+  padding: 16px;
+}
+
+.curso-stats {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.tree-structure {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.tree-node {
+  display: flex;
+  align-items: center;
+  padding: 12px;
+  margin: 4px 0;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.root-node {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  font-weight: bold;
+  font-size: 1.1rem;
+  margin-bottom: 20px;
+}
+
+.chapter-node {
+  background: #f8f9fa;
+  border: 2px solid #e9ecef;
+  margin-left: 20px;
+  font-weight: 600;
+  color: #495057;
+}
+
+.chapter-node:hover {
+  background: #e9ecef;
+  border-color: #007bff;
+}
+
+.lesson-node {
+  background: #ffffff;
+  border: 1px solid #dee2e6;
+  margin-left: 60px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.lesson-node:hover {
+  background: #f8f9ff;
+  border-color: #007bff;
+  transform: translateX(4px);
+}
+
+.node-icon {
+  margin-right: 12px;
+  font-size: 1.2rem;
+}
+
+.expand-icon {
+  margin-right: 8px;
+  font-size: 1rem;
+  transition: transform 0.3s ease;
+}
+
+.node-title {
+  flex: 1;
+  font-size: 1rem;
+}
+
+.lessons-count {
+  margin-left: auto;
+  font-size: 0.8rem;
+}
+
+.lesson-content {
+  flex: 1;
+}
+
+.lesson-details {
+  display: flex;
+  gap: 6px;
+  margin: 6px 0;
+}
+
+.lesson-theme {
+  font-size: 0.85rem;
+  color: #6c757d;
+  margin: 4px 0 0 0;
+  font-style: italic;
+}
+
+.chapters-container {
+  position: relative;
+}
+
+.chapter-branch {
+  position: relative;
+}
+
+.tree-connector {
+  position: absolute;
+  left: 10px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: #dee2e6;
+}
+
+.tree-connector::before {
+  content: '';
+  position: absolute;
+  top: 24px;
+  left: 0;
+  width: 20px;
+  height: 2px;
+  background: #dee2e6;
+}
+
+.lessons-container {
+  position: relative;
+}
+
+.lesson-branch {
+  position: relative;
+}
+
+.lesson-connector {
+  position: absolute;
+  left: -30px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: #dee2e6;
+}
+
+.lesson-connector::before {
+  content: '';
+  position: absolute;
+  top: 24px;
+  left: 0;
+  width: 20px;
+  height: 2px;
+  background: #dee2e6;
+}
+
+.lesson-connector.last-lesson {
+  height: 24px;
+}
+
+.lesson-connector.last-lesson::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 2px;
+  height: 20px;
+  background: white;
+}
+
+ion-chip {
+  --color: inherit;
+}
+
+ion-chip[size="small"] {
+  height: 24px;
+  font-size: 0.75rem;
+}
+
+ion-chip ion-icon {
+  font-size: 0.9rem;
+  margin-right: 4px;
+}
