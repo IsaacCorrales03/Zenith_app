@@ -8,8 +8,8 @@ import { SecureAuthService } from './secure-auth.service';
 })
 
 export class ApiService {
-  // private apiUrl = 'http://127.0.0.1:1900';
-  private apiUrl = 'https://zenith-ai-api.onrender.com';
+  private apiUrl = 'http://127.0.0.1:1900';
+  //private apiUrl = 'https://zenith-ai-api.onrender.com';
   private id: string = '';
   private api_key: string = '';
 
