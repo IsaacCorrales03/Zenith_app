@@ -1,178 +1,334 @@
-.container {
-  padding: 16px;
-}
-
-.curso-stats {
-  display: flex;
-  gap: 8px;
-  margin-top: 12px;
-}
-
 .tree-structure {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  padding: 16px;
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+  border-radius: 12px;
+  position: relative;
 }
 
 .tree-node {
   display: flex;
   align-items: center;
-  padding: 12px;
-  margin: 4px 0;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: all 0.3s ease;
+  padding: 12px 16px;
+  border-radius: 10px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
+  cursor: pointer;
+  margin: 4px 0;
+}
+
+.tree-node:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
 }
 
 .root-node {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
-  font-weight: bold;
+  font-weight: 600;
   font-size: 1.1rem;
   margin-bottom: 20px;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
 }
 
-.chapter-node {
-  background: #f8f9fa;
-  border: 2px solid #e9ecef;
-  margin-left: 20px;
-  font-weight: 600;
-  color: #495057;
-}
-
-.chapter-node:hover {
-  background: #e9ecef;
-  border-color: #007bff;
-}
-
-.lesson-node {
-  background: #ffffff;
-  border: 1px solid #dee2e6;
-  margin-left: 60px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-}
-
-.lesson-node:hover {
-  background: #f8f9ff;
-  border-color: #007bff;
-  transform: translateX(4px);
-}
-
-.node-icon {
+.root-node .node-icon {
+  font-size: 1.5rem;
   margin-right: 12px;
-  font-size: 1.2rem;
-}
-
-.expand-icon {
-  margin-right: 8px;
-  font-size: 1rem;
-  transition: transform 0.3s ease;
-}
-
-.node-title {
-  flex: 1;
-  font-size: 1rem;
-}
-
-.lessons-count {
-  margin-left: auto;
-  font-size: 0.8rem;
-}
-
-.lesson-content {
-  flex: 1;
-}
-
-.lesson-details {
-  display: flex;
-  gap: 6px;
-  margin: 6px 0;
-}
-
-.lesson-theme {
-  font-size: 0.85rem;
-  color: #6c757d;
-  margin: 4px 0 0 0;
-  font-style: italic;
+  color: rgba(255, 255, 255, 0.9);
 }
 
 .chapters-container {
   position: relative;
+  margin-left: 20px;
 }
 
 .chapter-branch {
   position: relative;
+  margin-bottom: 8px;
 }
 
 .tree-connector {
   position: absolute;
-  left: 10px;
+  left: -20px;
   top: 0;
-  bottom: 0;
   width: 2px;
-  background: #dee2e6;
+  height: 100%;
+  background: linear-gradient(to bottom, #cbd5e1, #e2e8f0);
 }
 
 .tree-connector::before {
   content: '';
   position: absolute;
+  left: -6px;
   top: 24px;
-  left: 0;
-  width: 20px;
+  width: 14px;
   height: 2px;
-  background: #dee2e6;
+  background: linear-gradient(to right, #cbd5e1, #e2e8f0);
+}
+
+.chapter-node {
+  background: linear-gradient(135deg, #ffffff 0%, #f1f5f9 100%);
+  border: 2px solid #e2e8f0;
+  font-weight: 500;
+  position: relative;
+  overflow: hidden;
+}
+
+.chapter-node::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  background: linear-gradient(to bottom, #3b82f6, #1d4ed8);
+}
+
+.chapter-node:hover {
+  border-color: #3b82f6;
+  background: linear-gradient(135deg, #ffffff 0%, #eff6ff 100%);
+}
+
+.expand-icon {
+  font-size: 1.2rem;
+  margin-right: 8px;
+  color: #64748b;
+  transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.chapter-node:hover .expand-icon {
+  color: #3b82f6;
+  transform: scale(1.1);
+}
+
+.node-icon {
+  font-size: 1.3rem;
+  margin-right: 12px;
+  color: #64748b;
+  transition: color 0.3s ease;
+}
+
+.chapter-node:hover .node-icon {
+  color: #3b82f6;
+}
+
+.node-title {
+  font-size: 1rem;
+  color: #334155;
+  font-weight: 500;
+}
+// Reemplaza el CSS anterior con esto:
+.lessons-container {
+  animation: slideDown 0.3s ease-out;
+  transform-origin: top;
+}
+
+.lesson-branch {
+  animation: fadeInUp 0.3s ease-out forwards;
+}
+
+.lesson-branch:nth-child(1) { animation-delay: 0.05s; }
+.lesson-branch:nth-child(2) { animation-delay: 0.1s; }
+.lesson-branch:nth-child(3) { animation-delay: 0.15s; }
+.lesson-branch:nth-child(4) { animation-delay: 0.2s; }
+.lesson-branch:nth-child(5) { animation-delay: 0.25s; }
+
+@keyframes slideDown {
+  from { 
+    opacity: 0;
+    transform: scaleY(0);
+  }
+  to { 
+    opacity: 1;
+    transform: scaleY(1);
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.expand-icon {
+  transition: transform 0.2s ease;
+}
+
+.chapter-node.expanded .expand-icon {
+  transform: rotate(90deg);
 }
 
 .lessons-container {
+  margin-left: 30px;
+  margin-top: 12px;
   position: relative;
 }
 
 .lesson-branch {
   position: relative;
+  margin-bottom: 6px;
 }
 
 .lesson-connector {
   position: absolute;
   left: -30px;
   top: 0;
-  bottom: 0;
   width: 2px;
-  background: #dee2e6;
+  height: calc(100% + 6px);
+  background: linear-gradient(to bottom, #e2e8f0, transparent);
 }
 
 .lesson-connector::before {
   content: '';
   position: absolute;
-  top: 24px;
-  left: 0;
-  width: 20px;
+  left: -6px;
+  top: 28px;
+  width: 16px;
   height: 2px;
-  background: #dee2e6;
+  background: #e2e8f0;
 }
 
 .lesson-connector.last-lesson {
-  height: 24px;
+  height: 28px;
 }
 
-.lesson-connector.last-lesson::after {
+.lesson-node {
+  background: linear-gradient(135deg, #ffffff 0%, #fafafa 100%);
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 16px;
+  position: relative;
+  overflow: hidden;
+}
+
+.lesson-node::before {
   content: '';
   position: absolute;
-  bottom: 0;
+  top: 0;
   left: 0;
-  width: 2px;
-  height: 20px;
-  background: white;
+  width: 3px;
+  height: 100%;
+  background: linear-gradient(to bottom, #10b981, #059669);
 }
 
-ion-chip {
-  --color: inherit;
+.lesson-node:hover {
+  background: linear-gradient(135deg, #ffffff 0%, #f0fdf4 100%);
+  border-color: #10b981;
+  transform: translateX(4px);
 }
 
-ion-chip[size="small"] {
-  height: 24px;
+.lesson-node:hover .node-icon {
+  color: #10b981;
+  transform: scale(1.1);
+}
+
+.lesson-content {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+}
+
+.lesson-details {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.lesson-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 8px;
+  border-radius: 12px;
   font-size: 0.75rem;
+  font-weight: 500;
+  background: #f1f5f9;
+  color: #475569;
+  border: 1px solid #e2e8f0;
 }
 
-ion-chip ion-icon {
-  font-size: 0.9rem;
-  margin-right: 4px;
+.lesson-chip.duration {
+  background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+  color: #92400e;
+  border-color: #f59e0b;
+}
+
+.lesson-chip.credits {
+  background: linear-gradient(135deg, #fef7cd 0%, #fef08a 100%);
+  color: #a16207;
+  border-color: #eab308;
+}
+
+.lesson-chip ion-icon {
+  font-size: 0.875rem;
+}
+
+.lesson-theme {
+  font-size: 0.875rem;
+  color: #64748b;
+  margin: 4px 0 0 0;
+  font-style: italic;
+  line-height: 1.3;
+}
+
+/* Animaciones */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.lessons-container {
+  animation: fadeInUp 0.4s ease-out;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .tree-structure {
+    padding: 12px;
+  }
+
+  .chapters-container {
+    margin-left: 16px;
+  }
+
+  .lessons-container {
+    margin-left: 24px;
+  }
+
+  .lesson-connector {
+    left: -24px;
+  }
+
+  .lesson-details {
+    flex-direction: column;
+    gap: 4px;
+  }
+}
+
+/* Estados adicionales */
+.tree-node.selected {
+  background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+  border-color: #3b82f6;
+}
+
+.lesson-node.completed::after {
+  content: '✓';
+  position: absolute;
+  top: 8px;
+  right: 12px;
+  color: #10b981;
+  font-weight: bold;
+  font-size: 1.2rem;
 }

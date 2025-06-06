@@ -1,9 +1,9 @@
 import {
-  mdTransitionAnimation
-} from "./chunk-JF6OVEOS.js";
-import {
   iosTransitionAnimation
 } from "./chunk-5APOKNA7.js";
+import {
+  mdTransitionAnimation
+} from "./chunk-JF6OVEOS.js";
 import {
   bootstrapLazy,
   componentOnReady,
@@ -41,7 +41,7 @@ import {
   provideComponentInputBinding,
   raf,
   setIonicClasses
-} from "./chunk-SRHN6LYD.js";
+} from "./chunk-7UBMPGBR.js";
 import "./chunk-GJ4SWXUR.js";
 import "./chunk-2AZ63G5W.js";
 import "./chunk-I6Q7YG6M.js";
@@ -52,17 +52,18 @@ import "./chunk-USATX7BD.js";
 import "./chunk-CJ5MJUPJ.js";
 import "./chunk-ZWBDDU4U.js";
 import {
-  ActivatedRoute,
-  Router
-} from "./chunk-UCORAF6O.js";
-import "./chunk-PYB324XB.js";
-import "./chunk-DJ5FB3DP.js";
-import {
   MaxValidator,
   MinValidator,
   NG_VALIDATORS,
   NG_VALUE_ACCESSOR
 } from "./chunk-76AXJMA4.js";
+import {
+  ActivatedRoute,
+  Router
+} from "./chunk-POGUJYGP.js";
+import "./chunk-32FG5WVR.js";
+import "./chunk-QLMCKM2O.js";
+import "./chunk-DJ5FB3DP.js";
 import {
   CommonModule,
   Location,

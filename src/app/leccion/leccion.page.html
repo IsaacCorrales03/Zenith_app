@@ -1,0 +1,437 @@
+<ion-content [fullscreen]="true">
+  <app-header></app-header>
+
+  <!-- Estado de Loading -->
+  <div *ngIf="isLoading" class="loading-container">
+    <div class="loading-content">
+      <ion-spinner name="circular" color="primary"></ion-spinner>
+      <div class="loading-text">
+        <h3>Cargando lección...</h3>
+        <p>Preparando el contenido para ti</p>
+      </div>
+      <div class="loading-dots">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Estado de Error -->
+  <div *ngIf="hasError && !isLoading" class="error-container">
+    <div class="error-content">
+      <ion-icon name="warning-outline" color="danger"></ion-icon>
+      <h2>¡Oops! Algo salió mal</h2>
+      <p class="error-message">{{ errorMessage || 'No pudimos cargar la lección en este momento' }}</p>
+      <div class="error-actions">
+        <ion-button (click)="ngOnInit()" color="primary" fill="solid">
+          <ion-icon name="refresh-outline" slot="start"></ion-icon>
+          Reintentar
+        </ion-button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Contenido Principal -->
+  <div *ngIf="!isLoading && !hasError && leccionData" class="leccion-container">
+
+    <!-- Header de la Lección -->
+    <div class="leccion-header">
+      <div class="header-background">
+        <div class="shape shape-1"></div>
+        <div class="shape shape-2"></div>
+        <div class="shape shape-3"></div>
+      </div>
+      
+      <div class="header-content">
+        <div class="leccion-badge">
+          <ion-icon name="school-outline"></ion-icon>
+          <span>Lección {{ leccionData.numero || 'N/A' }}</span>
+        </div>
+        
+        <h1 class="leccion-titulo">{{ leccionData.nombre || 'Sin título disponible' }}</h1>
+        
+        <div class="leccion-meta">
+          <div class="meta-item" *ngIf="leccionData.duracion">
+            <ion-icon name="time-outline"></ion-icon>
+            <span>{{ leccionData.duracion }} minutos</span>
+          </div>
+          <div class="meta-item" *ngIf="leccionData.creditos">
+            <ion-icon name="diamond-outline"></ion-icon>
+            <span>{{ leccionData.creditos }} créditos</span>
+          </div>
+          <div class="meta-item" *ngIf="leccionData.nivel">
+            <ion-icon name="trending-up-outline"></ion-icon>
+            <span>Nivel {{ leccionData.nivel }}</span>
+          </div>
+        </div>
+
+        <!-- Barra de progreso si existe -->
+        <div class="progress-section" *ngIf="leccionData.progreso !== undefined">
+          <div class="progress-info">
+            <span class="progress-label">Progreso</span>
+            <span class="progress-value">{{ leccionData.progreso }}%</span>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- Contenido de la Lección -->
+    <div class="leccion-content">
+      
+      <!-- Primer Párrafo y Recurso -->
+      <ng-container *ngIf="leccionData.parrafos && leccionData.parrafos.length > 0">
+        
+        <!-- Párrafo 1 -->
+        <ion-card class="parrafo-card">
+          <ion-card-header>
+            <div class="card-header-content">
+              <ion-card-title>
+                <ion-icon name="document-text-outline"></ion-icon>
+                Información Clave
+              </ion-card-title>
+              <ion-badge color="primary" class="section-badge">1</ion-badge>
+            </div>
+          </ion-card-header>
+          <ion-card-content>
+            <div class="parrafo-content">
+              <p class="parrafo-texto">{{ leccionData.parrafos[0] }}</p>
+              <div class="parrafo-footer">
+                <ion-icon name="bulb-outline" color="warning"></ion-icon>
+                <span>Concepto fundamental</span>
+              </div>
+            </div>
+          </ion-card-content>
+        </ion-card>
+
+        <!-- Recurso 1 -->
+        <ion-card class="recurso-card" *ngIf="recursos && recursos.length > 0">
+          <ion-card-header>
+            <div class="card-header-content">
+              <ion-card-title>
+                <ion-icon name="library-outline"></ion-icon>
+                Recurso de Aprendizaje
+              </ion-card-title>
+              <ion-badge color="secondary" class="afinacion-badge" *ngIf="recursos[0].afinacion">
+               
+                {{ recursos[0].afinacion }}
+              </ion-badge>
+            </div>
+          </ion-card-header>
+          
+          <ion-card-content>
+            <div class="recurso-content">
+
+              <!-- Imagen -->
+              <div *ngIf="recursos[0].afinacion === 'Imagen' || recursos[0].afinacion === 'Diagrama' || recursos[0].afinacion === 'Grafico'" 
+                   class="imagen-container">
+                <div class="imagen-wrapper">
+                  <img [src]="recursos[0].contenido" [alt]="recursos[0].descripcion || 'Imagen del recurso'" />
+                  <div class="imagen-overlay">
+                    <ion-icon name="expand-outline"></ion-icon>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Video -->
+              <div *ngIf="recursos[0].afinacion === 'Video'" class="video-container">
+                <div class="video-wrapper">
+                  <iframe [src]="getYouTubeEmbedUrl(recursos[0].contenido)" 
+                          frameborder="0" 
+                          allowfullscreen
+                          title="Video educativo">
+                  </iframe>
+                  <div class="video-info">
+                    <ion-icon name="play-circle-outline"></ion-icon>
+                    <span>Video interactivo</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Lectura -->
+              <div *ngIf="recursos[0].afinacion === 'Lectura'" class="lectura-container">
+                <div class="lectura-header">
+                  <ion-icon name="reader-outline"></ion-icon>
+                  <span>Material de lectura</span>
+                </div>
+                <div class="lectura-content" [innerHTML]="formatearContenido(recursos[0].contenido)"></div>
+              </div>
+
+              <!-- Escuchar Clase -->
+              <div *ngIf="recursos[0].afinacion === 'Escuchar_clase'" class="audio-clase">
+                <div class="audio-info">
+                  <ion-icon name="headset-outline"></ion-icon>
+                  <div class="audio-details">
+                    <h4>Clase en Audio</h4>
+                    <p>Escucha la explicación completa</p>
+                  </div>
+                </div>
+                <ion-button expand="block" fill="solid" (click)="abrirEnlaceExterno(recursos[0].contenido)">
+                  <ion-icon name="play-circle-outline" slot="start"></ion-icon>
+                  Reproducir Clase
+                </ion-button>
+              </div>
+
+              <!-- Grabación -->
+              <div *ngIf="recursos[0].afinacion === 'Grabacion'" class="audio-grabacion">
+                <div class="audio-info">
+                  <ion-icon name="mic-outline"></ion-icon>
+                  <span>Grabación de audio</span>
+                </div>
+                <audio controls class="audio-player">
+                  <source [src]="recursos[0].contenido" type="audio/mpeg">
+                  <p>Tu navegador no soporta el elemento de audio.</p>
+                </audio>
+              </div>
+
+              <!-- Debate -->
+              <div *ngIf="recursos[0].afinacion === 'Debate'" class="debate-container">
+                <div class="debate-header">
+                  <ion-icon name="chatbubbles-outline"></ion-icon>
+                  <span>Espacio de Debate</span>
+                </div>
+                <div class="debate-content" [innerHTML]="formatearContenido(recursos[0].contenido)"></div>
+              </div>
+
+              <!-- Recurso Kinestésico -->
+              <div *ngIf="recursos[0].afinacion === 'Kinestesico'" class="kinestesico-container">
+                <div class="kinestesico-header">
+                  <ion-icon name="hand-left-outline"></ion-icon>
+                  <span>Actividad Práctica</span>
+                </div>
+                <div class="kinestesico-content" [innerHTML]="formatearContenido(recursos[0].contenido)"></div>
+              </div>
+
+              <!-- Descripción del Recurso -->
+              <div class="recurso-descripcion" *ngIf="recursos[0].descripcion">
+                <ion-icon name="information-circle-outline" color="medium"></ion-icon>
+                <p>{{ recursos[0].descripcion }}</p>
+              </div>
+
+            </div>
+          </ion-card-content>
+        </ion-card>
+
+      </ng-container>
+
+      <!-- Segundo Párrafo y Recurso -->
+      <ng-container *ngIf="leccionData.parrafos && leccionData.parrafos.length > 1">
+        
+        <!-- Párrafo 2 -->
+        <ion-card class="parrafo-card">
+          <ion-card-header>
+            <div class="card-header-content">
+              <ion-card-title>
+                <ion-icon name="document-text-outline"></ion-icon>
+                Desarrollo del Tema
+              </ion-card-title>
+              <ion-badge color="success" class="section-badge">2</ion-badge>
+            </div>
+          </ion-card-header>
+          <ion-card-content>
+            <div class="parrafo-content">
+              <p class="parrafo-texto">{{ leccionData.parrafos[1] }}</p>
+              <div class="parrafo-footer">
+                <ion-icon name="trending-up-outline" color="success"></ion-icon>
+                <span>Desarrollo avanzado</span>
+              </div>
+            </div>
+          </ion-card-content>
+        </ion-card>
+
+        <!-- Recurso 2 -->
+        <ion-card class="recurso-card" *ngIf="recursos && recursos.length > 1">
+          <ion-card-header>
+            <div class="card-header-content">
+              <ion-card-title>
+                <ion-icon name="library-outline"></ion-icon>
+                Recurso Complementario
+              </ion-card-title>
+              <ion-badge color="tertiary" class="afinacion-badge" *ngIf="recursos[1].afinacion">
+                
+                {{ recursos[1].afinacion }}
+              </ion-badge>
+            </div>
+          </ion-card-header>
+          
+          <ion-card-content>
+            <!-- Contenido similar al primer recurso pero con índice [1] -->
+            <div class="recurso-content">
+              <!-- Similar estructura pero con recursos[1] -->
+              <div *ngIf="recursos[1].afinacion === 'Imagen' || recursos[1].afinacion === 'Diagrama' || recursos[1].afinacion === 'Grafico'" 
+                   class="imagen-container">
+                <div class="imagen-wrapper">
+                  <img [src]="recursos[1].contenido" [alt]="recursos[1].descripcion || 'Imagen del recurso'" />
+                  <div class="imagen-overlay">
+                    <ion-icon name="expand-outline"></ion-icon>
+                  </div>
+                </div>
+              </div>
+
+              <div *ngIf="recursos[1].afinacion === 'Video'" class="video-container">
+                <div class="video-wrapper">
+                  <iframe [src]="getYouTubeEmbedUrl(recursos[1].contenido)" frameborder="0" allowfullscreen></iframe>
+                </div>
+              </div>
+
+              <div *ngIf="recursos[1].afinacion === 'Lectura'" class="lectura-container">
+                <div class="lectura-header">
+                  <ion-icon name="reader-outline"></ion-icon>
+                  <span>Material complementario</span>
+                </div>
+                <div class="lectura-content" [innerHTML]="formatearContenido(recursos[1].contenido)"></div>
+              </div>
+
+              <div *ngIf="recursos[1].afinacion === 'Escuchar_clase'" class="audio-clase">
+                <ion-button expand="block" fill="outline" (click)="abrirEnlaceExterno(recursos[1].contenido)">
+                  <ion-icon name="play-circle-outline" slot="start"></ion-icon>
+                  Escuchar Contenido Adicional
+                </ion-button>
+              </div>
+
+              <div *ngIf="recursos[1].afinacion === 'Grabacion'" class="audio-grabacion">
+                <audio controls class="audio-player">
+                  <source [src]="recursos[1].contenido" type="audio/mpeg">
+                </audio>
+              </div>
+
+              <div *ngIf="recursos[1].afinacion === 'Debate'" class="debate-container">
+                <div class="debate-header">
+                  <ion-icon name="chatbubbles-outline"></ion-icon>
+                  <span>Discusión Avanzada</span>
+                </div>
+                <div class="debate-content" [innerHTML]="formatearContenido(recursos[1].contenido)"></div>
+              </div>
+
+              <div class="recurso-descripcion" *ngIf="recursos[1].descripcion">
+                <ion-icon name="information-circle-outline" color="medium"></ion-icon>
+                <p>{{ recursos[1].descripcion }}</p>
+              </div>
+            </div>
+          </ion-card-content>
+        </ion-card>
+
+      </ng-container>
+
+      <!-- Tercer Párrafo y Recurso -->
+      <ng-container *ngIf="leccionData.parrafos && leccionData.parrafos.length > 2">
+        
+        <!-- Párrafo 3 -->
+        <ion-card class="parrafo-card">
+          <ion-card-header>
+            <div class="card-header-content">
+              <ion-card-title>
+                <ion-icon name="document-text-outline"></ion-icon>
+                Conclusiones y Síntesis
+              </ion-card-title>
+              <ion-badge color="warning" class="section-badge">3</ion-badge>
+            </div>
+          </ion-card-header>
+          <ion-card-content>
+            <div class="parrafo-content">
+              <p class="parrafo-texto">{{ leccionData.parrafos[2] }}</p>
+              <div class="parrafo-footer">
+                <ion-icon name="checkmark-circle-outline" color="success"></ion-icon>
+                <span>Síntesis final</span>
+              </div>
+            </div>
+          </ion-card-content>
+        </ion-card>
+
+        <!-- Recurso 3 -->
+        <ion-card class="recurso-card" *ngIf="recursos && recursos.length > 2">
+          <ion-card-header>
+            <div class="card-header-content">
+              <ion-card-title>
+                <ion-icon name="library-outline"></ion-icon>
+                Recurso de Refuerzo
+              </ion-card-title>
+              <ion-badge color="warning" class="afinacion-badge" *ngIf="recursos[2].afinacion">
+                
+                {{ recursos[2].afinacion }}
+              </ion-badge>
+            </div>
+          </ion-card-header>
+          
+          <ion-card-content>
+            <div class="recurso-content">
+              <!-- Estructura similar con recursos[2] -->
+              <div *ngIf="recursos[2].afinacion === 'Imagen' || recursos[2].afinacion === 'Diagrama' || recursos[2].afinacion === 'Grafico'" 
+                   class="imagen-container">
+                <div class="imagen-wrapper">
+                  <img [src]="recursos[2].contenido" [alt]="recursos[2].descripcion || 'Imagen del recurso'" />
+                  <div class="imagen-overlay">
+                    <ion-icon name="expand-outline"></ion-icon>
+                  </div>
+                </div>
+              </div>
+
+              <div *ngIf="recursos[2].afinacion === 'Video'" class="video-container">
+                <div class="video-wrapper">
+                  <iframe [src]="getYouTubeEmbedUrl(recursos[2].contenido)" frameborder="0" allowfullscreen></iframe>
+                </div>
+              </div>
+
+              <div *ngIf="recursos[2].afinacion === 'Lectura'" class="lectura-container">
+                <div class="lectura-header">
+                  <ion-icon name="reader-outline"></ion-icon>
+                  <span>Lectura de refuerzo</span>
+                </div>
+                <div class="lectura-content" [innerHTML]="formatearContenido(recursos[2].contenido)"></div>
+              </div>
+
+              <div *ngIf="recursos[2].afinacion === 'Escuchar_clase'" class="audio-clase">
+                <ion-button expand="block" fill="solid" color="warning" (click)="abrirEnlaceExterno(recursos[2].contenido)">
+                  <ion-icon name="play-circle-outline" slot="start"></ion-icon>
+                  Reforzar con Audio
+                </ion-button>
+              </div>
+
+              <div *ngIf="recursos[2].afinacion === 'Grabacion'" class="audio-grabacion">
+                <audio controls class="audio-player">
+                  <source [src]="recursos[2].contenido" type="audio/mpeg">
+                </audio>
+              </div>
+
+              <div *ngIf="recursos[2].afinacion === 'Debate'" class="debate-container">
+                <div class="debate-header">
+                  <ion-icon name="chatbubbles-outline"></ion-icon>
+                  <span>Reflexión Final</span>
+                </div>
+                <div class="debate-content" [innerHTML]="formatearContenido(recursos[2].contenido)"></div>
+              </div>
+
+              <div class="recurso-descripcion" *ngIf="recursos[2].descripcion">
+                <ion-icon name="information-circle-outline" color="medium"></ion-icon>
+                <p>{{ recursos[2].descripcion }}</p>
+              </div>
+            </div>
+          </ion-card-content>
+        </ion-card>
+
+      </ng-container>
+
+    </div>
+
+    <!-- Mensaje si no hay recursos -->
+    <ion-card class="no-recursos-card" *ngIf="!recursos || recursos.length === 0">
+      <ion-card-content>
+        <div class="no-recursos">
+          <ion-icon name="folder-open-outline" color="medium"></ion-icon>
+          <h3>Sin recursos disponibles</h3>
+          <p>Esta lección no cuenta con recursos multimedia en este momento.</p>
+          <ion-button fill="clear" color="medium">
+            <ion-icon name="refresh-outline" slot="start"></ion-icon>
+            Verificar actualizaciones
+          </ion-button>
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+
+
+  </div>
+
+  <app-tab-bar></app-tab-bar>
+</ion-content>

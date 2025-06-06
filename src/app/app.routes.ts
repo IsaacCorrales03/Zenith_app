@@ -40,16 +40,24 @@ export const routes: Routes = [
   },
   {
     path: 'explore',
-    loadComponent: () => import('./explore/explore.page').then( m => m.ExplorePage)
+    loadComponent: () => import('./explore/explore.page').then( m => m.ExplorePage),
+    canActivate: [AuthGuard]
   },
 
   {
     path: 'curso',
-    loadComponent: () => import('./curso/curso.page').then( m => m.CursoPage)
+    loadComponent: () => import('./curso/curso.page').then( m => m.CursoPage),
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'leccion',
+    loadComponent: () => import('./leccion/leccion.page').then( m => m.LeccionPage),
+    canActivate: [AuthGuard]
   },
   {
     path: "**",
     loadComponent: () => import('./register/register.page').then( m => m.RegisterPage),
     canActivate: [NoAuthGuard]
   },
+
 ];

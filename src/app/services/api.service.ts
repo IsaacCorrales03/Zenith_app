@@ -44,6 +44,15 @@ export class ApiService {
     return this.http.get(`${this.apiUrl}/usuario?id=${this.id}&api_key=${this.api_key}`)
   }
 
+  obtener_recursos(lesson_id: any, percentages:any) {
+      const requestBody = {
+        leccion_id: lesson_id,
+        preferencias: percentages
+      };
+
+      return this.http.post(`${this.apiUrl}/adaptar_leccion`, requestBody)
+  }
+
   crearGrupo(form: any): Observable<any> {
     const formData = new FormData();
     formData.append('nombre', form.nombre); // Corrige la sintaxis aquí

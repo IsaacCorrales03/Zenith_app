@@ -1,1 +1,0 @@
-import{b as r,g as c}from"./chunk-W6P4ETXR.js";var u=(()=>{let t=class t{constructor(){this.groupCodeSubject=new r,this.groupCode$=this.groupCodeSubject.asObservable()}sendGroupCode(e){this.groupCodeSubject.next(e)}};t.\u0275fac=function(s){return new(s||t)},t.\u0275prov=c({token:t,factory:t.\u0275fac,providedIn:"root"});let o=t;return o})();export{u as a};

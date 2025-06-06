@@ -29,43 +29,58 @@
       </ion-card-header>
       <ion-card-content>
         <div class="tree-structure">
+          <!-- Nodo raíz del curso -->
           <div class="tree-node root-node">
             <ion-icon name="school-outline" class="node-icon"></ion-icon>
             <span class="node-title">{{ curso.nombre }}</span>
           </div>
 
-          <!-- Capítulos -->
-          <div class="chapters-container">
-            <div *ngFor="let capitulo of getCapitulos(); let i = index" class="chapter-branch">
-              <div class="tree-connector"></div>
-              <div class="tree-node chapter-node" (click)="toggleChapter(capitulo.id)">
-                <ion-icon [name]="isChapterExpanded(capitulo.id) ? 'chevron-down-outline' : 'chevron-forward-outline'"
-                  class="expand-icon">
-                </ion-icon>
-                <ion-icon name="library-outline" class="node-icon"></ion-icon>
-                <span class="node-title">Cap. {{ capitulo.id }}: {{ capitulo.nombre }}</span>
+          <!-- Contenedor de capítulos -->
+          <div class="chapters-container" [@staggerIn]>
+            <div *ngFor="let capitulo of getCapitulos(); let i = index; let last = last" class="chapter-branch">
+              <div class="tree-connector" [class.last-connector]="last"></div>
 
+              <!-- Nodo del capítulo -->
+              <div class="tree-node chapter-node" (click)="toggleChapter(capitulo.id)"
+                [class.expanded]="isChapterExpanded(capitulo.id)">
+                <ion-icon [name]="isChapterExpanded(capitulo.id) ? 'chevron-down-outline' : 'chevron-forward-outline'"
+                  class="expand-icon"></ion-icon>
+                <ion-icon name="library-outline" class="node-icon"></ion-icon>
+                <div class="chapter-content">
+                  <span class="node-title">Cap. {{ capitulo.id }}: {{ capitulo.nombre }}</span>
+                  <span class="chapter-stats">{{ getLeccionesCount(capitulo) }} lecciones</span>
+                </div>
               </div>
 
-              <!-- Lecciones -->
-              <div *ngIf="isChapterExpanded(capitulo.id)" class="lessons-container">
+              <!-- Contenedor de lecciones -->
+              <div *ngIf="isChapterExpanded(capitulo.id)" class="lessons-container" [@expandCollapse] [@staggerIn]>
                 <div *ngFor="let leccion of getLecciones(capitulo); let j = index; let last = last"
                   class="lesson-branch">
                   <div class="lesson-connector" [class.last-lesson]="last"></div>
+
+                  <!-- Nodo de la lección -->
                   <div class="tree-node lesson-node" (click)="selectLesson(leccion)">
                     <ion-icon name="play-circle-outline" class="node-icon"></ion-icon>
                     <div class="lesson-content">
                       <span class="node-title">{{ leccion.nombre }}</span>
+
+                      <!-- Detalles de la lección -->
                       <div class="lesson-details">
-                        <ion-chip size="small" color="tertiary">
+                        <div class="lesson-chip duration">
                           <ion-icon name="time-outline"></ion-icon>
-                          <ion-label>{{ leccion.duracion }} min</ion-label>
-                        </ion-chip>
-                        <ion-chip size="small" color="warning">
+                          <span>{{ formatDuration(leccion.duracion) }}</span>
+                        </div>
+                        <div class="lesson-chip credits">
                           <ion-icon name="star-outline"></ion-icon>
-                          <ion-label>{{ leccion.creditos }} pts</ion-label>
-                        </ion-chip>
+                          <span>{{ leccion.creditos }} pts</span>
+                        </div>
+                        <div class="lesson-chip resources" *ngIf="getRecursosCount(leccion) > 0">
+                          <ion-icon name="library-outline"></ion-icon>
+                          <span>{{ getRecursosCount(leccion) }} recursos</span>
+                        </div>
                       </div>
+
+                      <!-- Tema de la lección -->
                       <p class="lesson-theme">{{ leccion.tema }}</p>
                     </div>
                   </div>
@@ -77,5 +92,7 @@
       </ion-card-content>
     </ion-card>
   </div>
+
+
   <app-tab-bar></app-tab-bar>
 </ion-content>
