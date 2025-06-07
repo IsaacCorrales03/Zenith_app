@@ -170,7 +170,6 @@ export class CursoPage implements OnInit {
 
   ngOnInit() {
     this.curso = this.cursoService.getCurso();
-    console.log("Curso recibido:", this.curso);
 
     if (!this.curso) {
       this.router.navigate(['/cursos']);
@@ -203,7 +202,6 @@ export class CursoPage implements OnInit {
   selectLesson(leccion: Leccion): void {
 
     this.leccionService.setLeccion(leccion);
-    console.log('Lección seleccionada:', this.leccionService.getLeccionId());
     this.router.navigate(['/leccion']);
 
   }

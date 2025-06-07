@@ -175,7 +175,6 @@ export class LeccionPage implements OnInit {
   try {
     // Obtener datos de la lección desde el servicio
     this.leccionData = this.lessonService.getcontent();
-    console.log('Datos de lección obtenidos:', this.leccionData);
     
     // Verificar si los datos de lección están disponibles
     if (!this.leccionData) {
@@ -187,7 +186,7 @@ export class LeccionPage implements OnInit {
     }
 
     this.id_leccion = this.lessonService.getLeccionId();
-    console.log('ID de lección:', this.id_leccion);
+    
 
     if (!this.id_leccion) {
       console.warn('No se pudo obtener el ID de la lección');
@@ -199,7 +198,6 @@ export class LeccionPage implements OnInit {
 
     // Obtener porcentajes sin await, usando .then()
     this.secureAuthService.getLearningPercentages().then((percentages) => {
-      console.log('Porcentajes de aprendizaje:', percentages);
 
       if (!percentages) {
         console.warn('No se pudieron obtener los porcentajes de aprendizaje');
@@ -224,7 +222,6 @@ export class LeccionPage implements OnInit {
           this.isLoading = false;
         },
         complete: () => {
-          console.log('Observable completado');
           this.isLoading = false;
         }
       });

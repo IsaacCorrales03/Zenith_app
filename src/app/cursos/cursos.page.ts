@@ -75,8 +75,6 @@ export class CursosPage implements OnInit {
       console.warn('No se pudo obtener el ID del usuario');
       return;
     }
-
-    console.log('Usuario actual:', this.currentUserId);
     this.get_cursos();
   }
 
@@ -97,7 +95,6 @@ export class CursosPage implements OnInit {
             puedeInscribirse: isNotAuthor && isNotEnrolled
           };
         });
-        console.log(this.cursos);
       },
       error: (error) => {
         console.error('Error al obtener cursos:', error);

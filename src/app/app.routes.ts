@@ -54,10 +54,15 @@ export const routes: Routes = [
     loadComponent: () => import('./leccion/leccion.page').then( m => m.LeccionPage),
     canActivate: [AuthGuard]
   },
+    {
+    path: 'encuesta',
+    loadComponent: () => import('./encuesta/encuesta.page').then( m => m.EncuestaPage)
+  },
   {
     path: "**",
     loadComponent: () => import('./register/register.page').then( m => m.RegisterPage),
     canActivate: [NoAuthGuard]
   },
+
 
 ];
