@@ -2,10 +2,27 @@ import { Injectable } from '@angular/core';
 import { Preferences } from '@capacitor/preferences';
 import { Router } from '@angular/router';
 ;
+interface LearningCategory {
+  [key: string]: number;
+}
+interface Answer {
+  questionId: number;
+  rating: number;
+}
+interface LearningPreferences {
+  Auditivo: LearningCategory;
+  Kinestesico: LearningCategory;
+  Visual: LearningCategory;
+}
 
+interface QuestionMapping {
+  category: keyof LearningPreferences;
+  key: string;
+}
 @Injectable({
   providedIn: 'root'
 })
+
 export class SecureAuthService {
 
   constructor(
@@ -110,6 +127,115 @@ export class SecureAuthService {
       console.error('Error obteniendo porcentajes de aprendizaje con etiquetas', error);
       return [];
     }
+  }
+  async establecer_preferencias(answers: Answer[]) {
+    // Mapeo de índices a nombres de propiedades del JSON final
+    const questionMap: { [key: number]: QuestionMapping } = {
+      // Visual
+      0: { category: 'Visual', key: 'Lectura' },
+      1: { category: 'Visual', key: 'Graficos' },
+      2: { category: 'Visual', key: 'Diagramas' },
+      3: { category: 'Visual', key: 'Video' },
+      4: { category: 'Visual', key: 'Imagenes' },
+      // Auditivo
+      5: { category: 'Auditivo', key: 'Escuchar_clase' },
+      6: { category: 'Auditivo', key: 'Grabaciones' },
+      7: { category: 'Auditivo', key: 'Musica' },
+      8: { category: 'Auditivo', key: 'Podcast' },
+      9: { category: 'Auditivo', key: 'Debates' },
+      // Kinestésico
+      10: { category: 'Kinestesico', key: 'Experimentos' },
+      11: { category: 'Kinestesico', key: 'Simulaciones' },
+      12: { category: 'Kinestesico', key: 'Proyectos' },
+      13: { category: 'Kinestesico', key: 'Practica' },
+      14: { category: 'Kinestesico', key: 'Juegos' }
+    };
+
+    // Calcular el total de todos los valores
+    const totalSum = answers.reduce((sum, answer) => sum + answer.rating, 0);
+
+    // Crear el objeto de preferencias con porcentajes
+    const preferencias: LearningPreferences = {
+      "Auditivo": {
+        "Debates": 0,
+        "Escuchar_clase": 0,
+        "Grabaciones": 0,
+        "Musica": 0,
+        "Podcast": 0
+      },
+      "Kinestesico": {
+        "Experimentos": 0,
+        "Juegos": 0,
+        "Practica": 0,
+        "Proyectos": 0,
+        "Simulaciones": 0
+      },
+      "Visual": {
+        "Diagramas": 0,
+        "Graficos": 0,
+        "Imagenes": 0,
+        "Lectura": 0,
+        "Video": 0
+      }
+    };
+
+    // Calcular porcentajes para cada respuesta
+    answers.forEach(answer => {
+      const questionInfo = questionMap[answer.questionId];
+      if (questionInfo && totalSum > 0) {
+        const percentage = Math.round((answer.rating / totalSum) * 100);
+        preferencias[questionInfo.category][questionInfo.key] = percentage;
+      }
+    });
+
+    // Verificar que la suma sea exactamente 100 y ajustar si es necesario
+    const currentTotal = Object.values(preferencias).reduce((sum, category) =>
+      sum + Object.values(category as LearningCategory).reduce((catSum: number, value) => catSum + (value as number), 0), 0
+    );
+
+    // Ajustar para que sume exactamente 100
+    if (currentTotal !== 100 && currentTotal > 0) {
+      // Encontrar el valor más alto para hacer el ajuste
+      let maxValue: number = 0;
+      let maxCategory: keyof LearningPreferences = 'Visual';
+      let maxKey = '';
+
+      Object.entries(preferencias).forEach(([catName, category]) => {
+        Object.entries(category).forEach(([key, value]) => {
+          const numValue = value as number; // Type assertion here
+          if (numValue > maxValue) {
+            maxValue = numValue;
+            maxCategory = catName as keyof LearningPreferences;
+            maxKey = key;
+          }
+        });
+      });
+
+      // Ajustar el valor más alto
+      const difference = 100 - currentTotal;
+      preferencias[maxCategory][maxKey] = Math.max(0, maxValue + difference);
+    }
+
+    console.log('Preferencias calculadas:', preferencias);
+
+    // NUEVO: Guardar las preferencias en userData
+    try {
+      const userData = await this.getUserData();
+      if (userData) {
+        // Actualizar los datos del usuario con las nuevas preferencias
+        userData.Learning_Percentages = preferencias;
+
+        // Guardar los datos actualizados
+        await this.setUserData(userData);
+        console.log('Preferencias guardadas correctamente en Learning_Percentages');
+      } else {
+        console.error('No se encontraron datos del usuario para actualizar');
+      }
+    } catch (error) {
+      console.error('Error guardando las preferencias en userData:', error);
+    }
+
+    return preferencias;
   }
   async getUserData() {
 

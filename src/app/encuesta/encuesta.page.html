@@ -1,410 +1,177 @@
-<ion-app>
+<!-- learning-survey.component.html -->
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Encuesta de Preferencias de Aprendizaje</ion-title>
+  </ion-toolbar>
+</ion-header>
 
-  <ion-content fullscreen="true" class="ion-padding">
-    <ion-card>
-      <ion-card-header>
-        <ion-card-title>Preferencias de Aprendizaje</ion-card-title>
-        <ion-card-subtitle>Califica del 1 al 10 cada método de aprendizaje</ion-card-subtitle>
-      </ion-card-header>
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Encuesta de Aprendizaje</ion-title>
+    </ion-toolbar>
+  </ion-header>
 
+  <!-- Vista principal de la encuesta -->
+  <div *ngIf="!isCompleted && !showResults" class="survey-container">
+    <!-- Barra de progreso -->
+    <ion-card class="progress-card">
       <ion-card-content>
-        <form id="preferenceForm">
+        <ion-grid>
+          <ion-row class="ion-align-items-center">
+            <ion-col size="8">
+              <ion-text color="medium">
+                <p>Pregunta {{ currentQuestionIndex + 1 }} de {{ questions.length }}</p>
+              </ion-text>
+              <ion-progress-bar [value]="progress" color="primary"></ion-progress-bar>
+            </ion-col>
+            <ion-col size="4" class="ion-text-right">
+              <ion-chip [color]="getCategoryColor(currentQuestion.category)">
+                <ion-icon [name]="currentQuestion.categoryIcon"></ion-icon>
+                <ion-label>{{ currentQuestion.category }}</ion-label>
+              </ion-chip>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Pregunta actual -->
+    <ion-card class="question-card">
+      <ion-card-header>
+        <ion-card-title class="ion-text-center">
+          <ion-icon [name]="currentQuestion.categoryIcon" size="large" [color]="getCategoryColor(currentQuestion.category)"></ion-icon>
+        </ion-card-title>
+        <ion-card-title class="ion-text-center">
+          ¿Qué tan útil es {{ currentQuestion.name.toLowerCase() }} para tu aprendizaje?
+        </ion-card-title>
+      </ion-card-header>
+      
+      <ion-card-content>
+        <ion-radio-group [(ngModel)]="currentAnswer.rating" (ionChange)="setRating($event.detail.value)">
           <ion-grid>
-            <!-- Lectura -->
-            <ion-row>
-              <ion-col size="12" size-md="6">
-                <ion-item>
-                  <ion-label position="stacked">Lectura</ion-label>
-                  <ion-range id="pref_lectura" min="1" max="10" value="5" pin="true" snaps="true" ticks="true">
-                    <ion-label slot="start">1</ion-label>
-                    <ion-label slot="end">10</ion-label>
-                  </ion-range>
-                </ion-item>
-              </ion-col>
-              <ion-col size="12" size-md="6">
-                <ion-item>
-                  <ion-label>Porcentaje: <span id="percent_lectura">6.67%</span></ion-label>
-                </ion-item>
-              </ion-col>
-            </ion-row>
-
-            <!-- Gráficos -->
-            <ion-row>
-              <ion-col size="12" size-md="6">
-                <ion-item>
-                  <ion-label position="stacked">Gráficos</ion-label>
-                  <ion-range id="pref_graficos" min="1" max="10" value="5" pin="true" snaps="true" ticks="true">
-                    <ion-label slot="start">1</ion-label>
-                    <ion-label slot="end">10</ion-label>
-                  </ion-range>
-                </ion-item>
-              </ion-col>
-              <ion-col size="12" size-md="6">
-                <ion-item>
-                  <ion-label>Porcentaje: <span id="percent_graficos">6.67%</span></ion-label>
-                </ion-item>
-              </ion-col>
-            </ion-row>
-
-            <!-- Diagramas -->
-            <ion-row>
-              <ion-col size="12" size-md="6">
-                <ion-item>
-                  <ion-label position="stacked">Diagramas</ion-label>
-                  <ion-range id="pref_diagramas" min="1" max="10" value="5" pin="true" snaps="true" ticks="true">
-                    <ion-label slot="start">1</ion-label>
-                    <ion-label slot="end">10</ion-label>
-                  </ion-range>
-                </ion-item>
-              </ion-col>
-              <ion-col size="12" size-md="6">
-                <ion-item>
-                  <ion-label>Porcentaje: <span id="percent_diagramas">6.67%</span></ion-label>
-                </ion-item>
-              </ion-col>
-            </ion-row>
-
-            <!-- Videos -->
-            <ion-row>
-              <ion-col size="12" size-md="6">
-                <ion-item>
-                  <ion-label position="stacked">Videos</ion-label>
-                  <ion-range id="pref_videos" min="1" max="10" value="5" pin="true" snaps="true" ticks="true">
-                    <ion-label slot="start">1</ion-label>
-                    <ion-label slot="end">10</ion-label>
-                  </ion-range>
-                </ion-item>
-              </ion-col>
-              <ion-col size="12" size-md="6">
-                <ion-item>
-                  <ion-label>Porcentaje: <span id="percent_videos">6.67%</span></ion-label>
-                </ion-item>
-              </ion-col>
-            </ion-row>
-
-            <!-- Imágenes -->
-            <ion-row>
-              <ion-col size="12" size-md="6">
-                <ion-item>
-                  <ion-label position="stacked">Imágenes</ion-label>
-                  <ion-range id="pref_imagenes" min="1" max="10" value="5" pin="true" snaps="true" ticks="true">
-                    <ion-label slot="start">1</ion-label>
-                    <ion-label slot="end">10</ion-label>
-                  </ion-range>
-                </ion-item>
-              </ion-col>
-              <ion-col size="12" size-md="6">
-                <ion-item>
-                  <ion-label>Porcentaje: <span id="percent_imagenes">6.67%</span></ion-label>
-                </ion-item>
-              </ion-col>
-            </ion-row>
-
-            <!-- Escuchar Clase -->
-            <ion-row>
-              <ion-col size="12" size-md="6">
-                <ion-item>
-                  <ion-label position="stacked">Escuchar Clase</ion-label>
-                  <ion-range id="pref_escuchar_clase" min="1" max="10" value="5" pin="true" snaps="true" ticks="true">
-                    <ion-label slot="start">1</ion-label>
-                    <ion-label slot="end">10</ion-label>
-                  </ion-range>
-                </ion-item>
-              </ion-col>
-              <ion-col size="12" size-md="6">
-                <ion-item>
-                  <ion-label>Porcentaje: <span id="percent_escuchar_clase">6.67%</span></ion-label>
-                </ion-item>
-              </ion-col>
-            </ion-row>
-
-            <!-- Grabaciones -->
-            <ion-row>
-              <ion-col size="12" size-md="6">
-                <ion-item>
-                  <ion-label position="stacked">Grabaciones</ion-label>
-                  <ion-range id="pref_grabaciones" min="1" max="10" value="5" pin="true" snaps="true" ticks="true">
-                    <ion-label slot="start">1</ion-label>
-                    <ion-label slot="end">10</ion-label>
-                  </ion-range>
-                </ion-item>
-              </ion-col>
-              <ion-col size="12" size-md="6">
-                <ion-item>
-                  <ion-label>Porcentaje: <span id="percent_grabaciones">6.67%</span></ion-label>
-                </ion-item>
-              </ion-col>
-            </ion-row>
-
-            <!-- Música -->
-            <ion-row>
-              <ion-col size="12" size-md="6">
-                <ion-item>
-                  <ion-label position="stacked">Música</ion-label>
-                  <ion-range id="pref_musica" min="1" max="10" value="5" pin="true" snaps="true" ticks="true">
-                    <ion-label slot="start">1</ion-label>
-                    <ion-label slot="end">10</ion-label>
-                  </ion-range>
-                </ion-item>
-              </ion-col>
-              <ion-col size="12" size-md="6">
-                <ion-item>
-                  <ion-label>Porcentaje: <span id="percent_musica">6.67%</span></ion-label>
-                </ion-item>
-              </ion-col>
-            </ion-row>
-
-            <!-- Podcast -->
-            <ion-row>
-              <ion-col size="12" size-md="6">
-                <ion-item>
-                  <ion-label position="stacked">Podcast</ion-label>
-                  <ion-range id="pref_podcast" min="1" max="10" value="5" pin="true" snaps="true" ticks="true">
-                    <ion-label slot="start">1</ion-label>
-                    <ion-label slot="end">10</ion-label>
-                  </ion-range>
-                </ion-item>
-              </ion-col>
-              <ion-col size="12" size-md="6">
-                <ion-item>
-                  <ion-label>Porcentaje: <span id="percent_podcast">6.67%</span></ion-label>
-                </ion-item>
-              </ion-col>
-            </ion-row>
-
-            <!-- Debates -->
-            <ion-row>
-              <ion-col size="12" size-md="6">
-                <ion-item>
-                  <ion-label position="stacked">Debates</ion-label>
-                  <ion-range id="pref_debates" min="1" max="10" value="5" pin="true" snaps="true" ticks="true">
-                    <ion-label slot="start">1</ion-label>
-                    <ion-label slot="end">10</ion-label>
-                  </ion-range>
-                </ion-item>
-              </ion-col>
-              <ion-col size="12" size-md="6">
-                <ion-item>
-                  <ion-label>Porcentaje: <span id="percent_debates">6.67%</span></ion-label>
-                </ion-item>
-              </ion-col>
-            </ion-row>
-
-            <!-- Experimentos -->
-            <ion-row>
-              <ion-col size="12" size-md="6">
-                <ion-item>
-                  <ion-label position="stacked">Experimentos</ion-label>
-                  <ion-range id="pref_experimentos" min="1" max="10" value="5" pin="true" snaps="true" ticks="true">
-                    <ion-label slot="start">1</ion-label>
-                    <ion-label slot="end">10</ion-label>
-                  </ion-range>
-                </ion-item>
-              </ion-col>
-              <ion-col size="12" size-md="6">
-                <ion-item>
-                  <ion-label>Porcentaje: <span id="percent_experimentos">6.67%</span></ion-label>
-                </ion-item>
-              </ion-col>
-            </ion-row>
-
-            <!-- Simulaciones -->
-            <ion-row>
-              <ion-col size="12" size-md="6">
-                <ion-item>
-                  <ion-label position="stacked">Simulaciones</ion-label>
-                  <ion-range id="pref_simulaciones" min="1" max="10" value="5" pin="true" snaps="true" ticks="true">
-                    <ion-label slot="start">1</ion-label>
-                    <ion-label slot="end">10</ion-label>
-                  </ion-range>
-                </ion-item>
-              </ion-col>
-              <ion-col size="12" size-md="6">
-                <ion-item>
-                  <ion-label>Porcentaje: <span id="percent_simulaciones">6.67%</span></ion-label>
-                </ion-item>
-              </ion-col>
-            </ion-row>
-
-            <!-- Proyectos -->
-            <ion-row>
-              <ion-col size="12" size-md="6">
-                <ion-item>
-                  <ion-label position="stacked">Proyectos</ion-label>
-                  <ion-range id="pref_proyectos" min="1" max="10" value="5" pin="true" snaps="true" ticks="true">
-                    <ion-label slot="start">1</ion-label>
-                    <ion-label slot="end">10</ion-label>
-                  </ion-range>
-                </ion-item>
-              </ion-col>
-              <ion-col size="12" size-md="6">
-                <ion-item>
-                  <ion-label>Porcentaje: <span id="percent_proyectos">6.67%</span></ion-label>
-                </ion-item>
-              </ion-col>
-            </ion-row>
-
-            <!-- Práctica -->
-            <ion-row>
-              <ion-col size="12" size-md="6">
-                <ion-item>
-                  <ion-label position="stacked">Práctica</ion-label>
-                  <ion-range id="pref_practica" min="1" max="10" value="5" pin="true" snaps="true" ticks="true">
-                    <ion-label slot="start">1</ion-label>
-                    <ion-label slot="end">10</ion-label>
-                  </ion-range>
-                </ion-item>
-              </ion-col>
-              <ion-col size="12" size-md="6">
-                <ion-item>
-                  <ion-label>Porcentaje: <span id="percent_practica">6.67%</span></ion-label>
-                </ion-item>
-              </ion-col>
-            </ion-row>
-
-            <!-- Juegos -->
-            <ion-row>
-              <ion-col size="12" size-md="6">
-                <ion-item>
-                  <ion-label position="stacked">Juegos</ion-label>
-                  <ion-range id="pref_juegos" min="1" max="10" value="5" pin="true" snaps="true" ticks="true">
-                    <ion-label slot="start">1</ion-label>
-                    <ion-label slot="end">10</ion-label>
-                  </ion-range>
-                </ion-item>
-              </ion-col>
-              <ion-col size="12" size-md="6">
-                <ion-item>
-                  <ion-label>Porcentaje: <span id="percent_juegos">6.67%</span></ion-label>
+            <ion-row class="rating-row">
+              <ion-col size="12" *ngFor="let rating of [1,2,3,4,5]" class="rating-col">
+                <ion-item lines="none" class="rating-item">
+                  <ion-radio slot="start" [value]="rating"></ion-radio>
+                  <ion-label>
+                    <h3>{{ rating }}</h3>
+                    <p>{{ getRatingText(rating) }}</p>
+                  </ion-label>
                 </ion-item>
               </ion-col>
             </ion-row>
           </ion-grid>
-
-          <div class="ion-padding-top">
-            <ion-button expand="block" color="secondary" id="resetBtn">
-              <ion-icon name="refresh-outline" slot="start"></ion-icon>
-              Restablecer a 5
-            </ion-button>
-          </div>
-
-          <div class="ion-padding-top">
-            <ion-button expand="block" color="primary" id="calculateBtn">
-              <ion-icon name="calculator-outline" slot="start"></ion-icon>
-              Calcular Preferencias
-            </ion-button>
-          </div>
-        </form>
+        </ion-radio-group>
       </ion-card-content>
     </ion-card>
 
-    <!-- Resultado -->
-    <ion-card id="resultCard" style="display: none;">
+    <!-- Botones de navegación -->
+    <ion-grid class="navigation-buttons">
+      <ion-row>
+        <ion-col size="6">
+          <ion-button 
+            expand="block" 
+            fill="outline" 
+            [disabled]="!canGoPrevious"
+            (click)="previousQuestion()">
+            <ion-icon name="arrow-back-outline" slot="start"></ion-icon>
+            Anterior
+          </ion-button>
+        </ion-col>
+        <ion-col size="6">
+          <ion-button 
+            expand="block" 
+            [disabled]="!canGoNext"
+            (click)="nextQuestion()">
+            {{ currentQuestionIndex === questions.length - 1 ? 'Finalizar' : 'Siguiente' }}
+            <ion-icon [name]="currentQuestionIndex === questions.length - 1 ? 'checkmark-circle-outline' : 'arrow-forward-outline'" slot="end"></ion-icon>
+          </ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+
+  <!-- Vista de resultados detallados -->
+  <div *ngIf="showResults" class="results-container">
+    <ion-card>
       <ion-card-header>
-        <ion-card-title color="success">Resultados</ion-card-title>
+        <ion-card-title class="ion-text-center">
+          <ion-icon name="checkmark-circle-outline" color="success" size="large"></ion-icon>
+        </ion-card-title>
+        <ion-card-title class="ion-text-center">Resultados de tu Encuesta</ion-card-title>
+      </ion-card-header>
+    </ion-card>
+
+    <!-- Resultados por categoría -->
+    <ion-card *ngFor="let category of ['Visual', 'Auditivo', 'Kinestésico']">
+      <ion-card-header>
+        <ion-card-title [color]="getCategoryColor(category)">
+          <ion-icon [name]="category === 'Visual' ? 'eye-outline' : category === 'Auditivo' ? 'volume-high-outline' : 'hand-right-outline'"></ion-icon>
+          {{ category }}
+        </ion-card-title>
       </ion-card-header>
       <ion-card-content>
-        <div id="resultContent"></div>
+        <ion-grid>
+          <ion-row>
+            <ion-col size="8">
+              <ion-progress-bar [value]="results[category].percentage / 100" [color]="getCategoryColor(category)"></ion-progress-bar>
+            </ion-col>
+            <ion-col size="4" class="ion-text-right">
+              <ion-text [color]="getCategoryColor(category)">
+                <h2>{{ results[category].percentage }}%</h2>
+              </ion-text>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col>
+              <ion-text color="medium">
+                <p>Promedio: {{ results[category].average }}/5</p>
+                <p>Total: {{ results[category].total }}/{{ results[category].questions * 5 }} puntos</p>
+              </ion-text>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
       </ion-card-content>
     </ion-card>
-  </ion-content>
-</ion-app>
 
-<script>
-  // Definir las preferencias
-  const preferencias = [
-    'lectura', 'graficos', 'diagramas', 'videos', 'imagenes',
-    'escuchar_clase', 'grabaciones', 'musica', 'podcast', 'debates',
-    'experimentos', 'simulaciones', 'proyectos', 'practica', 'juegos'
-  ];
+    <!-- Respuestas detalladas -->
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Respuestas Detalladas</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-list>
+          <div *ngFor="let category of ['Visual', 'Auditivo', 'Kinestésico']">
+            <ion-item>
+              <ion-label>
+                <h2>{{ category }}</h2>
+              </ion-label>
+            </ion-item>
+            <ion-item *ngFor="let question of questions | slice: (category === 'Visual' ? 0 : category === 'Auditivo' ? 5 : 10) : (category === 'Visual' ? 5 : category === 'Auditivo' ? 10 : 15)">
+              <ion-label>
+                <h3>{{ question.name }}</h3>
+                <p>{{ getRatingText(answers[question.id].rating) }} ({{ answers[question.id].rating }}/5)</p>
+              </ion-label>
+              <ion-chip [color]="getCategoryColor(category)" slot="end">
+                {{ answers[question.id].rating }}
+              </ion-chip>
+            </ion-item>
+          </div>
+        </ion-list>
+      </ion-card-content>
+    </ion-card>
 
-  // Método para calcular preferencias
-  function calcularPreferencias() {
-    const valores = {};
-    let sumaTotal = 0;
+    <!-- Botón para reiniciar -->
+    <ion-button expand="block" color="medium" (click)="restartSurvey()">
+      Realizar Encuesta Nuevamente
+    </ion-button>
+  </div>
 
-    // Obtener todos los valores
-    preferencias.forEach(pref => {
-      const element = document.getElementById(`pref_${pref}`);
-      const valor = parseInt(element.value);
-      valores[pref] = valor;
-      sumaTotal += valor;
-    });
-
-    // Calcular porcentajes
-    const porcentajes = {};
-    preferencias.forEach(pref => {
-      porcentajes[pref] = (valores[pref] / sumaTotal) * 100;
-    });
-
-    return {
-      valores,
-      porcentajes,
-      sumaTotal
-    };
-  }
-
-  // Actualizar porcentajes en tiempo real
-  function actualizarPorcentajes() {
-    const resultado = calcularPreferencias();
-
-    preferencias.forEach(pref => {
-      const percentElement = document.getElementById(`percent_${pref}`);
-      percentElement.textContent = `${resultado.porcentajes[pref].toFixed(2)}%`;
-    });
-  }
-
-  // Agregar event listeners a todos los ranges
-  document.addEventListener('DOMContentLoaded', function () {
-    preferencias.forEach(pref => {
-      const rangeElement = document.getElementById(`pref_${pref}`);
-      rangeElement.addEventListener('ionInput', actualizarPorcentajes);
-    });
-
-    // Botón para restablecer
-    document.getElementById('resetBtn').addEventListener('click', function () {
-      preferencias.forEach(pref => {
-        document.getElementById(`pref_${pref}`).value = 5;
-      });
-      actualizarPorcentajes();
-    });
-
-    // Botón para calcular
-    document.getElementById('calculateBtn').addEventListener('click', function () {
-      const resultado = calcularPreferencias();
-
-      let resultHTML = '<ion-list>';
-      resultHTML += `<ion-item><ion-label><h3>Suma Total: ${resultado.sumaTotal}</h3></ion-label></ion-item>`;
-      resultHTML += '<ion-item-divider><ion-label>Distribución de Preferencias</ion-label></ion-item-divider>';
-
-      // Ordenar por porcentaje descendente
-      const sortedPrefs = Object.entries(resultado.porcentajes)
-        .sort(([, a], [, b]) => b - a)
-        .slice(0, 5); // Top 5
-
-      sortedPrefs.forEach(([pref, porcentaje]) => {
-        const prefName = pref.replace('_', ' ').replace(/\b\w/g, l => l.toUpperCase());
-        resultHTML += `
-                        <ion-item>
-                            <ion-label>
-                                <h3>${prefName}</h3>
-                                <p>Valor: ${resultado.valores[pref]} | Porcentaje: ${porcentaje.toFixed(2)}%</p>
-                            </ion-label>
-                            <ion-badge slot="end" color="primary">${porcentaje.toFixed(1)}%</ion-badge>
-                        </ion-item>
-                    `;
-      });
-
-      resultHTML += '</ion-list>';
-
-      document.getElementById('resultContent').innerHTML = resultHTML;
-      document.getElementById('resultCard').style.display = 'block';
-
-      // Scroll to result
-      document.getElementById('resultCard').scrollIntoView({ behavior: 'smooth' });
-    });
-
-    // Calcular porcentajes iniciales
-    actualizarPorcentajes();
-  });
-</script>
+  <!-- Alert de finalización -->
+  <ion-alert
+  [isOpen]="isAlertOpen"
+  header="Encuesta finalizada"
+  [buttons]="botones">
+</ion-alert>
+</ion-content>

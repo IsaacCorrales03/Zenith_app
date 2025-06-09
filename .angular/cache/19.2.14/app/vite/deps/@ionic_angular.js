@@ -41,7 +41,7 @@ import {
   provideComponentInputBinding,
   raf,
   setIonicClasses
-} from "./chunk-7UBMPGBR.js";
+} from "./chunk-247CK2DW.js";
 import "./chunk-GJ4SWXUR.js";
 import "./chunk-2AZ63G5W.js";
 import "./chunk-I6Q7YG6M.js";
@@ -60,10 +60,10 @@ import {
 import {
   ActivatedRoute,
   Router
-} from "./chunk-POGUJYGP.js";
-import "./chunk-32FG5WVR.js";
-import "./chunk-QLMCKM2O.js";
+} from "./chunk-YLPQFT3S.js";
+import "./chunk-GEZY2N2Y.js";
 import "./chunk-DJ5FB3DP.js";
+import "./chunk-QLMCKM2O.js";
 import {
   CommonModule,
   Location,

@@ -1,0 +1,211 @@
+/* learning-survey.component.scss */
+
+.survey-container {
+  padding: 16px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.results-container {
+  padding: 16px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.progress-card {
+  margin-bottom: 20px;
+  
+  ion-card-content {
+    padding: 16px;
+  }
+  
+  ion-progress-bar {
+    margin-top: 8px;
+  }
+}
+
+.question-card {
+  margin-bottom: 30px;
+  
+  ion-card-header {
+    text-align: center;
+    padding-bottom: 0;
+    
+    ion-card-title {
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin-bottom: 16px;
+      
+      ion-icon {
+        display: block;
+        margin: 0 auto 16px;
+      }
+    }
+  }
+  
+  ion-card-content {
+    padding-top: 0;
+  }
+}
+
+.rating-row {
+  margin-top: 20px;
+}
+
+.rating-col {
+  padding: 4px;
+}
+
+.rating-item {
+  --background: var(--ion-color-light);
+  --border-radius: 12px;
+  margin-bottom: 8px;
+  border: 2px solid transparent;
+  transition: all 0.3s ease;
+  
+  &:hover {
+    --background: var(--ion-color-light-tint);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+  
+  ion-label {
+    text-align: center;
+    
+    h3 {
+      font-size: 1.4rem;
+      font-weight: bold;
+      margin: 0;
+      color: var(--ion-color-primary);
+    }
+    
+    p {
+      margin: 4px 0 0;
+      font-size: 0.9rem;
+      color: var(--ion-color-medium);
+    }
+  }
+  
+  ion-radio {
+    margin-right: 12px;
+  }
+}
+
+// Estilo para radio seleccionado
+ion-radio-group ion-item {
+  ion-radio:checked + ion-label {
+    --background: var(--ion-color-primary-tint);
+    
+    h3 {
+      color: var(--ion-color-primary);
+    }
+  }
+}
+
+// Efecto visual para item seleccionado
+ion-item.item-radio-checked {
+  --background: var(--ion-color-primary-tint) !important;
+  border: 2px solid var(--ion-color-primary) !important;
+  
+  ion-label h3 {
+    color: var(--ion-color-primary) !important;
+  }
+}
+
+.navigation-buttons {
+  margin-top: 30px;
+  
+  ion-button {
+    height: 48px;
+    font-weight: 600;
+    
+    ion-icon {
+      font-size: 1.2rem;
+    }
+  }
+}
+
+// Estilos para los resultados
+.results-container {
+  ion-card {
+    margin-bottom: 16px;
+    
+    &:last-child {
+      margin-bottom: 30px;
+    }
+  }
+  
+  ion-progress-bar {
+    height: 8px;
+    border-radius: 4px;
+  }
+  
+  ion-chip {
+    font-weight: 600;
+  }
+}
+
+// Estilos para diferentes categorías
+ion-chip {
+  &[color="primary"] {
+    --color: var(--ion-color-primary-contrast);
+    --background: var(--ion-color-primary);
+  }
+  
+  &[color="secondary"] {
+    --color: var(--ion-color-secondary-contrast);
+    --background: var(--ion-color-secondary);
+  }
+  
+  &[color="tertiary"] {
+    --color: var(--ion-color-tertiary-contrast);
+    --background: var(--ion-color-tertiary);
+  }
+}
+
+// Animaciones
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+ion-card {
+  animation: fadeIn 0.3s ease-out;
+}
+
+// Responsive design
+@media (max-width: 768px) {
+  .rating-item {
+    ion-label h3 {
+      font-size: 1.2rem;
+    }
+    
+    ion-label p {
+      font-size: 0.8rem;
+    }
+  }
+  
+  .navigation-buttons {
+    ion-button {
+      height: 44px;
+      font-size: 0.9rem;
+    }
+  }
+}
+
+// Estilos para modo oscuro
+@media (prefers-color-scheme: dark) {
+  .rating-item {
+    --background: var(--ion-color-dark);
+    
+    &:hover {
+      --background: var(--ion-color-dark-tint);
+    }
+  }
+}

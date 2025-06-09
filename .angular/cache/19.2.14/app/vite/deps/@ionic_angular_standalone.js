@@ -86,7 +86,7 @@ import {
   setIonicClasses,
   setOverlayId,
   toastController
-} from "./chunk-7UBMPGBR.js";
+} from "./chunk-247CK2DW.js";
 import {
   iosTransitionAnimation
 } from "./chunk-GJ4SWXUR.js";
@@ -158,10 +158,10 @@ import {
 import {
   ActivatedRoute,
   Router
-} from "./chunk-POGUJYGP.js";
-import "./chunk-32FG5WVR.js";
-import "./chunk-QLMCKM2O.js";
+} from "./chunk-YLPQFT3S.js";
+import "./chunk-GEZY2N2Y.js";
 import "./chunk-DJ5FB3DP.js";
+import "./chunk-QLMCKM2O.js";
 import {
   CommonModule,
   Location,

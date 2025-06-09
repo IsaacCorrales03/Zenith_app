@@ -1,167 +1,248 @@
-// encuesta.page.ts
 import { Component, OnInit } from '@angular/core';
-import { PreferenciasService, PreferenciasValores, ResultadoPreferencias } from '../services/preferencias.service';
-import { IonGrid,IonContent, IonTitle,IonApp,IonRow,IonRange,IonCardTitle, IonCardSubtitle,IonItem, IonCol, IonCardContent, IonCardHeader, IonCard, IonIcon, IonButton, IonLabel } from '@ionic/angular/standalone';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { SecureAuthService } from '../services/secure-auth.service';
+import {
+  IonContent,
+  IonHeader,
+  IonTitle,
+  IonToolbar,
+  IonCard,
+  IonCardHeader,
+  IonCardTitle,
+  IonCardContent,
+  IonItem,
+  IonLabel,
+  IonRadioGroup,
+  IonRadio,
+  IonButton,
+  IonProgressBar,
+  IonIcon,
+  IonGrid,
+  IonRow,
+  IonCol,
+  IonText,
+  IonChip,
+  IonList,
+  IonAlert
+} from '@ionic/angular/standalone';
+import { addIcons } from 'ionicons';
+import {
+  eyeOutline,
+  volumeHighOutline,
+  handRightOutline,
+  checkmarkCircleOutline,
+  arrowForwardOutline,
+  arrowBackOutline
+} from 'ionicons/icons';
 
+interface Question {
+  id: number;
+  name: string;
+  category: string;
+  categoryIcon: string;
+}
+
+interface Answer {
+  questionId: number;
+  rating: number;
+}
 
 @Component({
   selector: 'app-encuesta',
   templateUrl: './encuesta.page.html',
   styleUrls: ['./encuesta.page.scss'],
   standalone: true,
-  imports: [IonRange, IonContent, IonApp,IonTitle,IonGrid,IonCardTitle, IonRow,IonButton,IonCardSubtitle, IonLabel , IonItem, IonCol, IonCardContent, IonCardHeader, IonCard, IonIcon]
+  imports: [
+    CommonModule,
+    FormsModule,
+    IonContent,
+    IonHeader,
+    IonTitle,
+    IonToolbar,
+    IonCard,
+    IonCardHeader,
+    IonCardTitle,
+    IonCardContent,
+    IonItem,
+    IonLabel,
+    IonRadioGroup,
+    IonRadio,
+    IonButton,
+    IonProgressBar,
+    IonIcon,
+    IonGrid,
+    IonRow,
+    IonCol,
+    IonText,
+    IonChip,
+    IonList,
+    IonAlert
+  ]
 })
+
 export class EncuestaPage implements OnInit {
-  
-  preferenciasForm: PreferenciasValores = {
-    lectura: 5,
-    graficos: 5,
-    diagramas: 5,
-    videos: 5,
-    imagenes: 5,
-    escuchar_clase: 5,
-    grabaciones: 5,
-    musica: 5,
-    podcast: 5,
-    debates: 5,
-    experimentos: 5,
-    simulaciones: 5,
-    proyectos: 5,
-    practica: 5,
-    juegos: 5
-  };
-
-  resultado: ResultadoPreferencias | null = null;
-  mostrarResultados = false;
-
-  // Lista de preferencias para iterar en el template
-  preferencias = [
-    { key: 'lectura', label: 'Lectura', icon: 'book-outline' },
-    { key: 'graficos', label: 'Gráficos', icon: 'bar-chart-outline' },
-    { key: 'diagramas', label: 'Diagramas', icon: 'git-network-outline' },
-    { key: 'videos', label: 'Videos', icon: 'videocam-outline' },
-    { key: 'imagenes', label: 'Imágenes', icon: 'image-outline' },
-    { key: 'escuchar_clase', label: 'Escuchar Clase', icon: 'ear-outline' },
-    { key: 'grabaciones', label: 'Grabaciones', icon: 'mic-outline' },
-    { key: 'musica', label: 'Música', icon: 'musical-notes-outline' },
-    { key: 'podcast', label: 'Podcast', icon: 'radio-outline' },
-    { key: 'debates', label: 'Debates', icon: 'chatbubbles-outline' },
-    { key: 'experimentos', label: 'Experimentos', icon: 'flask-outline' },
-    { key: 'simulaciones', label: 'Simulaciones', icon: 'desktop-outline' },
-    { key: 'proyectos', label: 'Proyectos', icon: 'construct-outline' },
-    { key: 'practica', label: 'Práctica', icon: 'hand-left-outline' },
-    { key: 'juegos', label: 'Juegos', icon: 'game-controller-outline' }
+  questions: Question[] = [
+    // Visual
+    { id: 0, name: "Lectura", category: "Visual", categoryIcon: "eye-outline" },
+    { id: 1, name: "Gráfico", category: "Visual", categoryIcon: "eye-outline" },
+    { id: 2, name: "Diagrama", category: "Visual", categoryIcon: "eye-outline" },
+    { id: 3, name: "Video", category: "Visual", categoryIcon: "eye-outline" },
+    { id: 4, name: "Imagen", category: "Visual", categoryIcon: "eye-outline" },
+    // Auditivo
+    { id: 5, name: "Escuchar clase", category: "Auditivo", categoryIcon: "volume-high-outline" },
+    { id: 6, name: "Grabación", category: "Auditivo", categoryIcon: "volume-high-outline" },
+    { id: 7, name: "Música", category: "Auditivo", categoryIcon: "volume-high-outline" },
+    { id: 8, name: "Podcast", category: "Auditivo", categoryIcon: "volume-high-outline" },
+    { id: 9, name: "Debate", category: "Auditivo", categoryIcon: "volume-high-outline" },
+    // Kinestésico
+    { id: 10, name: "Experimento", category: "Kinestésico", categoryIcon: "hand-right-outline" },
+    { id: 11, name: "Simulación", category: "Kinestésico", categoryIcon: "hand-right-outline" },
+    { id: 12, name: "Proyecto", category: "Kinestésico", categoryIcon: "hand-right-outline" },
+    { id: 13, name: "Práctica", category: "Kinestésico", categoryIcon: "hand-right-outline" },
+    { id: 14, name: "Juego", category: "Kinestésico", categoryIcon: "hand-right-outline" }
   ];
+  botones: any[] = []
+  answers: Answer[] = [];
+  currentQuestionIndex = 0;
+  isCompleted = false;
+  showResults = false;
+  results: any = {};
+  isAlertOpen = false;
 
-  constructor(private preferenciasService: PreferenciasService) { }
-
-  ngOnInit() {
-    this.calcularPreferencias();
+  constructor(private secureAuthService: SecureAuthService) {
+    addIcons({
+      eyeOutline,
+      volumeHighOutline,
+      handRightOutline,
+      checkmarkCircleOutline,
+      arrowForwardOutline,
+      arrowBackOutline
+    });
   }
 
-  /**
-   * Calcula las preferencias y actualiza los porcentajes
-   */
-  calcularPreferencias(): void {
-    try {
-      this.resultado = this.preferenciasService.calcularPreferencias(this.preferenciasForm);
-    } catch (error) {
-      console.error('Error al calcular preferencias:', error);
+  ngOnInit() {
+    this.botones = [
+      {
+        text: 'Ver Resultados',
+        handler: () => this.showDetailedResults()
+      },
+      {
+        text: 'Reiniciar',
+        handler: () => this.restartSurvey()
+      }
+    ]; this.botones = [
+      {
+        text: 'Ver Resultados',
+        handler: () => this.showDetailedResults()
+      },
+      {
+        text: 'Reiniciar',
+        handler: () => this.restartSurvey()
+      }
+    ];
+    // Inicializar respuestas
+    this.answers = this.questions.map(q => ({ questionId: q.id, rating: 0 }));
+  }
+
+  get currentQuestion(): Question {
+    return this.questions[this.currentQuestionIndex];
+  }
+
+  get currentAnswer(): Answer {
+    return this.answers.find(a => a.questionId === this.currentQuestion.id) || { questionId: this.currentQuestion.id, rating: 0 };
+  }
+
+  get progress(): number {
+    return (this.currentQuestionIndex + 1) / this.questions.length;
+  }
+
+  get canGoNext(): boolean {
+    return this.currentAnswer.rating > 0;
+  }
+
+  get canGoPrevious(): boolean {
+    return this.currentQuestionIndex > 0;
+  }
+
+  setRating(rating: number) {
+    const answerIndex = this.answers.findIndex(a => a.questionId === this.currentQuestion.id);
+    if (answerIndex !== -1) {
+      this.answers[answerIndex].rating = rating;
     }
   }
 
-  /**
-   * Maneja el cambio en los sliders
-   */
-  onRangeChange(event: any, preferencia: keyof PreferenciasValores): void {
-    this.preferenciasForm[preferencia] = event.detail.value;
-    this.calcularPreferencias();
+  nextQuestion() {
+    if (this.currentQuestionIndex < this.questions.length - 1) {
+      this.currentQuestionIndex++;
+    } else {
+      this.completeSurvey();
+    }
   }
 
-  /**
-   * Resetea todas las preferencias a 5
-   */
-  resetearPreferencias(): void {
-    this.preferencias.forEach(pref => {
-      (this.preferenciasForm as any)[pref.key] = 5;
+  previousQuestion() {
+    if (this.currentQuestionIndex > 0) {
+      this.currentQuestionIndex--;
+    }
+  }
+
+  completeSurvey() {
+    this.isCompleted = true;
+    this.calculateResults();
+
+    // Llamar al método del AuthService
+    this.secureAuthService.establecer_preferencias(this.answers);
+
+    this.isAlertOpen = true;
+  }
+
+  calculateResults() {
+    const categories = ['Visual', 'Auditivo', 'Kinestésico'];
+    this.results = {};
+
+    categories.forEach(category => {
+      const categoryQuestions = this.questions.filter(q => q.category === category);
+      const categoryAnswers = categoryQuestions.map(q =>
+        this.answers.find(a => a.questionId === q.id)?.rating || 0
+      );
+
+      const total = categoryAnswers.reduce((sum, rating) => sum + rating, 0);
+      const average = total / categoryAnswers.length;
+      const percentage = (average / 5) * 100;
+
+      this.results[category] = {
+        total,
+        average: Math.round(average * 100) / 100,
+        percentage: Math.round(percentage),
+        questions: categoryQuestions.length
+      };
     });
-    this.calcularPreferencias();
   }
 
-  /**
-   * Muestra los resultados detallados
-   */
-  mostrarResultadosDetallados(): void {
-    this.mostrarResultados = true;
+  showDetailedResults() {
+    this.showResults = true;
+    this.isAlertOpen = false;
   }
 
-  /**
-   * Obtiene el porcentaje formateado
-   */
-  getPorcentaje(preferencia: keyof PreferenciasValores): string {
-    if (!this.resultado) return '6.67%';
-    return `${this.resultado.porcentajes[preferencia].toFixed(2)}%`;
+  restartSurvey() {
+    this.currentQuestionIndex = 0;
+    this.isCompleted = false;
+    this.showResults = false;
+    this.answers = this.questions.map(q => ({ questionId: q.id, rating: 0 }));
+    this.isAlertOpen = false;
   }
 
-  /**
-   * Obtiene el color del badge según el porcentaje
-   */
-  getBadgeColor(porcentaje: number): string {
-    if (porcentaje >= 10) return 'success';
-    if (porcentaje >= 8) return 'warning';
-    if (porcentaje >= 6) return 'primary';
-    return 'medium';
+  getCategoryColor(category: string): string {
+    switch (category) {
+      case 'Visual': return 'primary';
+      case 'Auditivo': return 'secondary';
+      case 'Kinestésico': return 'tertiary';
+      default: return 'medium';
+    }
   }
 
-  /**
-   * Obtiene las estadísticas resumidas
-   */
-  getEstadisticas() {
-    if (!this.resultado) return null;
-    
-    const top3 = this.resultado.topPreferencias.slice(0, 3);
-    const bottom3 = this.resultado.topPreferencias.slice(-3).reverse();
-    const promedio = this.resultado.sumaTotal / this.preferencias.length;
-    
-    return {
-      top3,
-      bottom3,
-      promedio: promedio.toFixed(1),
-      distribucion: this.getDistribucion()
-    };
-  }
-
-  /**
-   * Calcula la distribución de preferencias
-   */
-  private getDistribucion() {
-    if (!this.resultado) return null;
-    
-    const altas = this.resultado.topPreferencias.filter(p => p.porcentaje >= 8).length;
-    const medias = this.resultado.topPreferencias.filter(p => p.porcentaje >= 5 && p.porcentaje < 8).length;
-    const bajas = this.resultado.topPreferencias.filter(p => p.porcentaje < 5).length;
-    
-    return { altas, medias, bajas };
-  }
-
-  /**
-   * Exporta los resultados como JSON
-   */
-  exportarResultados(): void {
-    if (!this.resultado) return;
-    
-    const datos = {
-      fecha: new Date().toISOString(),
-      preferencias: this.resultado,
-      resumen: this.preferenciasService.generarResumen(this.resultado)
-    };
-    
-    const blob = new Blob([JSON.stringify(datos, null, 2)], { type: 'application/json' });
-    const url = window.URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `preferencias-${new Date().toISOString().split('T')[0]}.json`;
-    a.click();
-    window.URL.revokeObjectURL(url);
+  getRatingText(rating: number): string {
+    const texts = ['', 'Muy poco', 'Poco', 'Regular', 'Bastante', 'Mucho'];
+    return texts[rating] || '';
   }
 }
