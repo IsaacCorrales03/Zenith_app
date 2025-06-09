@@ -1,5 +1,6 @@
-  import { Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+
 import { FormsModule } from '@angular/forms';
 import {
   IonContent,
@@ -19,6 +20,7 @@ import { SecureAuthService } from '../services/secure-auth.service';
 import { Header } from '../components/header/header';
 import { TabBar } from '../components/tab-bar/tab-bar';
 import { addIcons } from 'ionicons';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import {
   // Iconos de estado y navegación
   warningOutline,
@@ -27,7 +29,7 @@ import {
   chevronBackOutline,
   chevronForwardOutline,
   locationOutline,
-  
+
   // Iconos de lección y educación
   schoolOutline,
   documentTextOutline,
@@ -35,11 +37,11 @@ import {
   bulbOutline,
   trendingUpOutline,
   checkmarkCircleOutline,
-  
+
   // Iconos de tiempo y progreso
   timeOutline,
   diamondOutline,
-  
+
   // Iconos de multimedia y recursos
   playCircleOutline,
   expandOutline,
@@ -48,11 +50,11 @@ import {
   micOutline,
   chatbubblesOutline,
   handLeftOutline,
-  
+
   // Iconos de información y utilidad
   informationCircleOutline,
   folderOpenOutline,
-  
+
   // Iconos adicionales que podrían necesitarse según afinación
   imageOutline,
   videocamOutline,
@@ -105,142 +107,149 @@ export class LeccionPage implements OnInit {
   isLoading: boolean = true;
   hasError: boolean = false;
   errorMessage: string = '';
-
+  videoUrl: SafeResourceUrl | null = null;
   constructor(
     private apiService: ApiService,
     private secureAuthService: SecureAuthService,
-    private lessonService: LessonService
-  ) {addIcons({warningOutline,
-  'refresh-outline': refreshOutline,  
-  'arrow-back-outline': arrowBackOutline,
-  'chevron-back-outline': chevronBackOutline,
-  'chevron-forward-outline': chevronForwardOutline,
-  'location-outline': locationOutline,
-  
-  // Educación y lección
-  'school-outline': schoolOutline,
-  'document-text-outline': documentTextOutline,
-  'library-outline': libraryOutline,
-  'bulb-outline': bulbOutline,
-  'trending-up-outline': trendingUpOutline,
-  'checkmark-circle-outline': checkmarkCircleOutline,
-  
-  // Tiempo y métricas
-  'time-outline': timeOutline,
-  'diamond-outline': diamondOutline,
-  
-  // Multimedia
-  'play-circle-outline': playCircleOutline,
-  'expand-outline': expandOutline,
-  'reader-outline': readerOutline,
-  'headset-outline': headsetOutline,
-  'mic-outline': micOutline,
-  'chatbubbles-outline': chatbubblesOutline,
-  'hand-left-outline': handLeftOutline,
-  
-  // Información
-  'information-circle-outline': informationCircleOutline,
-  'folder-open-outline': folderOpenOutline,
-  
-  // Iconos por tipo de afinación
-  'image-outline': imageOutline,
-  'videocam-outline': videocamOutline,
-  'book-outline': bookOutline,
-  'volume-high-outline': volumeHighOutline,
-  'clipboard-outline': clipboardOutline,
-  'construct-outline': constructOutline,
-  'musical-notes-outline': musicalNotesOutline,
-  'code-slash-outline': codeSlashOutline,
-  'calculator-outline': calculatorOutline,
-  'globe-outline': globeOutline,
-  'game-controller-outline': gameControllerOutline,
-  'flash-outline': flashOutline,
-  'people-outline': peopleOutline,
-  
-  'color-palette-outline': colorPaletteOutline,
-  'heart-outline': heartOutline,
-  'leaf-outline': leafOutline,
-  'star-outline': starOutline,
-  'medal-outline': medalOutline,
-  'rocket-outline': rocketOutline,
-  'telescope-outline': telescopeOutline
-}); }
+    private lessonService: LessonService,
+    private sanitizer: DomSanitizer
+  ) {
+    addIcons({
+      warningOutline,
+      'refresh-outline': refreshOutline,
+      'arrow-back-outline': arrowBackOutline,
+      'chevron-back-outline': chevronBackOutline,
+      'chevron-forward-outline': chevronForwardOutline,
+      'location-outline': locationOutline,
+
+      // Educación y lección
+      'school-outline': schoolOutline,
+      'document-text-outline': documentTextOutline,
+      'library-outline': libraryOutline,
+      'bulb-outline': bulbOutline,
+      'trending-up-outline': trendingUpOutline,
+      'checkmark-circle-outline': checkmarkCircleOutline,
+
+      // Tiempo y métricas
+      'time-outline': timeOutline,
+      'diamond-outline': diamondOutline,
+
+      // Multimedia
+      'play-circle-outline': playCircleOutline,
+      'expand-outline': expandOutline,
+      'reader-outline': readerOutline,
+      'headset-outline': headsetOutline,
+      'mic-outline': micOutline,
+      'chatbubbles-outline': chatbubblesOutline,
+      'hand-left-outline': handLeftOutline,
+
+      // Información
+      'information-circle-outline': informationCircleOutline,
+      'folder-open-outline': folderOpenOutline,
+
+      // Iconos por tipo de afinación
+      'image-outline': imageOutline,
+      'videocam-outline': videocamOutline,
+      'book-outline': bookOutline,
+      'volume-high-outline': volumeHighOutline,
+      'clipboard-outline': clipboardOutline,
+      'construct-outline': constructOutline,
+      'musical-notes-outline': musicalNotesOutline,
+      'code-slash-outline': codeSlashOutline,
+      'calculator-outline': calculatorOutline,
+      'globe-outline': globeOutline,
+      'game-controller-outline': gameControllerOutline,
+      'flash-outline': flashOutline,
+      'people-outline': peopleOutline,
+
+      'color-palette-outline': colorPaletteOutline,
+      'heart-outline': heartOutline,
+      'leaf-outline': leafOutline,
+      'star-outline': starOutline,
+      'medal-outline': medalOutline,
+      'rocket-outline': rocketOutline,
+      'telescope-outline': telescopeOutline
+    });
+  }
 
   ngOnInit() {
-  // Resetear estados al iniciar
-  this.isLoading = true;
-  this.hasError = false;
-  this.errorMessage = '';
+    // Resetear estados al iniciar
+    this.isLoading = true;
+    this.hasError = false;
+    this.errorMessage = '';
 
-  try {
-    // Obtener datos de la lección desde el servicio
-    this.leccionData = this.lessonService.getcontent();
-    
-    // Verificar si los datos de lección están disponibles
-    if (!this.leccionData) {
-      console.warn('No se pudieron obtener los datos de la lección');
-      this.hasError = true;
-      this.errorMessage = 'No se pudieron cargar los datos de la lección';
-      this.isLoading = false;
-      return;
-    }
+    try {
+      // Obtener datos de la lección desde el servicio
+      this.leccionData = this.lessonService.getcontent();
 
-    this.id_leccion = this.lessonService.getLeccionId();
-    
-
-    if (!this.id_leccion) {
-      console.warn('No se pudo obtener el ID de la lección');
-      this.hasError = true;
-      this.errorMessage = 'ID de lección no disponible';
-      this.isLoading = false;
-      return;
-    }
-
-    // Obtener porcentajes sin await, usando .then()
-    this.secureAuthService.getLearningPercentages().then((percentages) => {
-
-      if (!percentages) {
-        console.warn('No se pudieron obtener los porcentajes de aprendizaje');
+      // Verificar si los datos de lección están disponibles
+      if (!this.leccionData) {
+        console.warn('No se pudieron obtener los datos de la lección');
         this.hasError = true;
-        this.errorMessage = 'No se pudieron cargar las preferencias de aprendizaje';
+        this.errorMessage = 'No se pudieron cargar los datos de la lección';
         this.isLoading = false;
         return;
       }
 
-      // Llamar al API para obtener recursos
-      this.apiService.obtener_recursos(this.id_leccion, percentages).subscribe({
-        next: (data: any) => {
-          console.log("Recursos:", data[0].recursos_adaptados);
-          this.recursos = data[0].recursos_adaptados;
-          this.isLoading = false;
-          this.hasError = false;
-        },
-        error: (err: any) => {
-          console.error('Error al obtener recursos:', err);
+      this.id_leccion = this.lessonService.getLeccionId();
+
+
+      if (!this.id_leccion) {
+        console.warn('No se pudo obtener el ID de la lección');
+        this.hasError = true;
+        this.errorMessage = 'ID de lección no disponible';
+        this.isLoading = false;
+        return;
+      }
+
+      // Obtener porcentajes sin await, usando .then()
+      this.secureAuthService.getLearningPercentages().then((percentages) => {
+
+        if (!percentages) {
+          console.warn('No se pudieron obtener los porcentajes de aprendizaje');
           this.hasError = true;
-          this.errorMessage = 'Error al cargar los recursos de la lección';
+          this.errorMessage = 'No se pudieron cargar las preferencias de aprendizaje';
           this.isLoading = false;
-        },
-        complete: () => {
-          this.isLoading = false;
+          return;
         }
+        console.log(percentages)
+        // Llamar al API para obtener recursos
+        this.apiService.obtener_recursos(this.id_leccion, percentages).subscribe({
+          next: (data: any) => {
+            console.log("Recursos:", data[0].recursos_adaptados);
+            this.recursos = data[0].recursos_adaptados;
+            this.isLoading = false;
+            this.hasError = false;
+          },
+          error: (err: any) => {
+            console.error('Error al obtener recursos:', err);
+            this.hasError = true;
+            this.errorMessage = 'Error al cargar los recursos de la lección';
+            this.isLoading = false;
+          },
+          complete: () => {
+            this.isLoading = false;
+          }
+        });
+
+      }).catch((error) => {
+        console.error('Error al obtener porcentajes:', error);
+        this.hasError = true;
+        this.errorMessage = 'Error al cargar preferencias de aprendizaje';
+        this.isLoading = false;
       });
 
-    }).catch((error) => {
-      console.error('Error al obtener porcentajes:', error);
+
+    } catch (error) {
+      console.error('Error en ngOnInit:', error);
       this.hasError = true;
-      this.errorMessage = 'Error al cargar preferencias de aprendizaje';
+      this.errorMessage = 'Error al inicializar la página';
       this.isLoading = false;
-    });
-
-  } catch (error) {
-    console.error('Error en ngOnInit:', error);
-    this.hasError = true;
-    this.errorMessage = 'Error al inicializar la página';
-    this.isLoading = false;
+    }
   }
-}
-
+  getSanitizedUrl(url: string): SafeResourceUrl {
+    return this.sanitizer.bypassSecurityTrustResourceUrl(url);
+  }
 
   getTipoColor(tipo: string): string {
     switch (tipo) {
@@ -250,33 +259,43 @@ export class LeccionPage implements OnInit {
       default: return 'medium';
     }
   }
+  getSafeYouTubeUrl(url: string): SafeResourceUrl {
+    const embedUrl = this.getYouTubeEmbedUrl(url);
+    return this.sanitizer.bypassSecurityTrustResourceUrl(embedUrl);
+  }
 
   getYouTubeEmbedUrl(url: string): string {
     if (url.includes('youtu.be/')) {
-      const videoId = url.split('youtu.be/')[1].split('?')[0];
+      // Para URLs tipo: https://youtu.be/lsoFP2YApvs?si=Cc6bvEjBitYkDLhR
+      const videoId = url.split('youtu.be/')[1].split('?')[0].split('&')[0];
       return `https://www.youtube.com/embed/${videoId}`;
     } else if (url.includes('youtube.com/watch?v=')) {
+      // Para URLs tipo: https://www.youtube.com/watch?v=lsoFP2YApvs&si=...
       const videoId = url.split('watch?v=')[1].split('&')[0];
       return `https://www.youtube.com/embed/${videoId}`;
     }
     return url;
   }
 
+
   formatearContenido(contenido: string): string {
     if (!contenido) return '';
 
     return contenido
-      .replace(/{titulo}/g, '<h3>')
+      .replace(/{titulo}/g, '<h3 class="title">')
       .replace(/{\/titulo}/g, '</h3>')
-      .replace(/{lista_ordenada}/g, '<ol>')
+      .replace(/{subtitulo}/g, '<h4 class="subtitle">')
+      .replace(/{\/subtitulo}/g, '</h4>')
+      .replace(/{lista_ordenada}/g, '<ol class="ordered-list">')
       .replace(/{\/lista_ordenada}/g, '</ol>')
-      .replace(/{lista_desordenada}/g, '<ul>')
+      .replace(/{lista_desordenada}/g, '<ul class="unordered-list">')
       .replace(/{\/lista_desordenada}/g, '</ul>')
-      .replace(/{objeto_lista}/g, '<li>')
-      .replace(/{espacio_input}/g, '<div class="input-space">___________</div>')
-      .replace(/\n/g, '<br>');
+      .replace(/{objeto_lista}/g, '<li class="list-item">')
+      .replace(/{espacio_input}/g, '<div class="input-space">_________________________</div>')
+      .replace(/\n\n/g, '<br><br>') // Párrafos
+      .replace(/\n/g, '<br>'); // Saltos de línea simples
   }
-
+  
   abrirEnlaceExterno(url: string) {
     window.open(url, '_blank');
   }

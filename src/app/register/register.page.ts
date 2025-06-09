@@ -68,7 +68,7 @@ export class RegisterPage implements OnInit {
         // Guardar credenciales de forma segura
         await this.secureAuthService.setUserData(response);
         // Navegar a la página principal
-        this.router.navigate(['']);
+        this.router.navigate(['encuesta']);
       },
       error: (error) => {
         let errorMsg = 'Error en el registro';

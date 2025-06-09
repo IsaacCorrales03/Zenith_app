@@ -8,8 +8,8 @@ import { SecureAuthService } from './secure-auth.service';
 })
 
 export class ApiService {
-  //private apiUrl = 'http://127.0.0.1:1900';
-  private apiUrl = 'https://zenith-ai-api.onrender.com';
+  private apiUrl = 'http://127.0.0.1:1900';
+  //private apiUrl = 'https://zenith-ai-api.onrender.com';
   private id: string = '';
   private api_key: string = '';
 
@@ -44,15 +44,17 @@ export class ApiService {
     return this.http.get(`${this.apiUrl}/usuario?id=${this.id}&api_key=${this.api_key}`)
   }
 
-  obtener_recursos(lesson_id: any, percentages:any) {
-      const requestBody = {
-        leccion_id: lesson_id,
-        preferencias: percentages
-      };
+  obtener_recursos(lesson_id: any, percentages: any) {
+    const requestBody = {
+      leccion_id: lesson_id,
+      preferencias: percentages
+    };
 
-      return this.http.post(`${this.apiUrl}/adaptar_leccion`, requestBody)
+    return this.http.post(`${this.apiUrl}/adaptar_leccion`, requestBody)
   }
-
+  establecer_preferencias(preferencias: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/set_user_preferences?id=${this.id}&key=${this.api_key}`, preferencias);
+  }
   crearGrupo(form: any): Observable<any> {
     const formData = new FormData();
     formData.append('nombre', form.nombre); // Corrige la sintaxis aquí

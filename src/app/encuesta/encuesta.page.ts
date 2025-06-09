@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { SecureAuthService } from '../services/secure-auth.service';
+import { ApiService } from '../services/api.service';
+import { Router } from '@angular/router';
 import {
   IonContent,
   IonHeader,
@@ -89,13 +91,13 @@ export class EncuestaPage implements OnInit {
     { id: 2, name: "Diagrama", category: "Visual", categoryIcon: "eye-outline" },
     { id: 3, name: "Video", category: "Visual", categoryIcon: "eye-outline" },
     { id: 4, name: "Imagen", category: "Visual", categoryIcon: "eye-outline" },
-    // Auditivo
+    // // Auditivo
     { id: 5, name: "Escuchar clase", category: "Auditivo", categoryIcon: "volume-high-outline" },
     { id: 6, name: "Grabación", category: "Auditivo", categoryIcon: "volume-high-outline" },
     { id: 7, name: "Música", category: "Auditivo", categoryIcon: "volume-high-outline" },
     { id: 8, name: "Podcast", category: "Auditivo", categoryIcon: "volume-high-outline" },
     { id: 9, name: "Debate", category: "Auditivo", categoryIcon: "volume-high-outline" },
-    // Kinestésico
+    // // Kinestésico
     { id: 10, name: "Experimento", category: "Kinestésico", categoryIcon: "hand-right-outline" },
     { id: 11, name: "Simulación", category: "Kinestésico", categoryIcon: "hand-right-outline" },
     { id: 12, name: "Proyecto", category: "Kinestésico", categoryIcon: "hand-right-outline" },
@@ -110,7 +112,7 @@ export class EncuestaPage implements OnInit {
   results: any = {};
   isAlertOpen = false;
 
-  constructor(private secureAuthService: SecureAuthService) {
+  constructor(private secureAuthService: SecureAuthService, private apiService: ApiService, private router: Router) {
     addIcons({
       eyeOutline,
       volumeHighOutline,
@@ -192,8 +194,17 @@ export class EncuestaPage implements OnInit {
 
     // Llamar al método del AuthService
     this.secureAuthService.establecer_preferencias(this.answers);
-
-    this.isAlertOpen = true;
+    this.secureAuthService.get_user_percentages().then((preferencias) =>
+    {
+      this.apiService.establecer_preferencias(preferencias).subscribe({
+        next: (data:any) => {
+          console.log(data)
+        }
+      })
+      console.log("Petición realizada")
+    })
+    
+    this.router.navigate([''])
   }
 
   calculateResults() {

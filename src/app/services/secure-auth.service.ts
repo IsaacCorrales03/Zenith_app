@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Preferences } from '@capacitor/preferences';
 import { Router } from '@angular/router';
-;
 interface LearningCategory {
   [key: string]: number;
 }
@@ -55,36 +54,41 @@ export class SecureAuthService {
 
       const learningPercentages = userData.Learning_Percentages;
 
-      // Extraer los 15 valores en el orden: Auditivo, Kinestésico, Visual
       const percentagesArray: number[] = [
-        // Auditivo (5 valores)
-        learningPercentages.Auditivo?.Debates || 0,
-        learningPercentages.Auditivo?.Escuchar_clase || 0,
-        learningPercentages.Auditivo?.Grabaciones || 0,
-        learningPercentages.Auditivo?.Musica || 0,
-        learningPercentages.Auditivo?.Podcast || 0,
+        // Visual (índices 0-4)
+        learningPercentages.Visual?.Lectura || 0,         // 0
+        learningPercentages.Visual?.Graficos || 0,        // 1
+        learningPercentages.Visual?.Diagramas || 0,       // 2
+        learningPercentages.Visual?.Video || 0,           // 3
+        learningPercentages.Visual?.Imagenes || 0,        // 4
 
-        // Kinestésico (5 valores)
-        learningPercentages.Kinestesico?.Experimentos || 0,
-        learningPercentages.Kinestesico?.Juegos || 0,
-        learningPercentages.Kinestesico?.Practica || 0,
-        learningPercentages.Kinestesico?.Proyectos || 0,
-        learningPercentages.Kinestesico?.Simulaciones || 0,
+        // Auditivo (índices 5-9)
+        learningPercentages.Auditivo?.Escuchar_clase || 0, // 5
+        learningPercentages.Auditivo?.Grabaciones || 0,    // 6
+        learningPercentages.Auditivo?.Musica || 0,         // 7
+        learningPercentages.Auditivo?.Podcast || 0,        // 8
+        learningPercentages.Auditivo?.Debates || 0,        // 9
 
-        // Visual (5 valores)
-        learningPercentages.Visual?.Diagramas || 0,
-        learningPercentages.Visual?.Graficos || 0,
-        learningPercentages.Visual?.Imagenes || 0,
-        learningPercentages.Visual?.Lectura || 0,
-        learningPercentages.Visual?.Video || 0
+        // Kinestésico (índices 10-14)
+        learningPercentages.Kinestesico?.Experimentos || 0, // 10
+        learningPercentages.Kinestesico?.Simulaciones || 0, // 11
+        learningPercentages.Kinestesico?.Proyectos || 0,    // 12
+        learningPercentages.Kinestesico?.Practica || 0,     // 13
+        learningPercentages.Kinestesico?.Juegos || 0        // 14
       ];
 
+      
       return percentagesArray;
 
     } catch (error) {
       console.error('Error obteniendo porcentajes de aprendizaje', error);
       return Array(15).fill(0); // Retorna array de 15 ceros en caso de error
     }
+  }
+  async get_user_percentages() {
+    const userData = await this.getUserData();
+      
+    return userData.Learning_Percentages
   }
 
   async getLearningPercentagesWithLabels(): Promise<{ label: string, value: number, category: string }[]> {
@@ -120,7 +124,7 @@ export class SecureAuthService {
         { label: 'Lectura', value: learningPercentages.Visual?.Lectura || 0, category: 'Visual' },
         { label: 'Video', value: learningPercentages.Visual?.Video || 0, category: 'Visual' }
       ];
-
+      console.log(percentagesWithLabels)
       return percentagesWithLabels;
 
     } catch (error) {
@@ -217,14 +221,14 @@ export class SecureAuthService {
     }
 
     console.log('Preferencias calculadas:', preferencias);
-
+    // Agregar este console.log al inicio de la función establecer_preferencias
+    console.log('Array de ratings en orden de índices:', answers.map(answer => answer.rating));
     // NUEVO: Guardar las preferencias en userData
     try {
       const userData = await this.getUserData();
       if (userData) {
         // Actualizar los datos del usuario con las nuevas preferencias
         userData.Learning_Percentages = preferencias;
-
         // Guardar los datos actualizados
         await this.setUserData(userData);
         console.log('Preferencias guardadas correctamente en Learning_Percentages');
